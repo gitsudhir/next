@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import Button from "@mui/material/Button";
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 
 
 const JsEditor = () => {
