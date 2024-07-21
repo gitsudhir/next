@@ -5,10 +5,10 @@ import { useSearchParams } from 'next/navigation'
 
 
 const JsEditor = () => {
-    const searchParams = useSearchParams()
+    // const searchParams = useSearchParams()
     const [code, setCode] = useState('');
     const [output, setOutput] = useState('');
-    const search = searchParams.get('search')
+    // const search = searchParams.get('search')
 
     const runCode = () => {
         let consoleOutput = '';
@@ -27,7 +27,6 @@ const JsEditor = () => {
     };
 
     return (<>
-        <p>{search}</p>
         <div style={{ display: 'flex', alignItems: 'start', margin: '1% 3%' }}>
             <textarea
                 value={code}
