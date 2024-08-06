@@ -18,6 +18,9 @@ export default function Home() {
         <li>4️⃣connect postgress database <Link rel="stylesheet" href="https://nextjs.org/learn/dashboard-app/setting-up-your-database" ><u> /setting-up-your-database</u></Link></li>
         <li>5️⃣ learn postgress database <Link rel="stylesheet" href="https://www.w3schools.com/postgresql/" ><u> w3schools.com/postgresql</u></Link></li>
       </ol>
+      <ol><li>
+        6️⃣ Redux api call - <Link href={'https://medium.com/how-to-react/how-to-use-redux-in-your-react-app-with-axios-2327f581bf8a'}></Link>
+      </li></ol>
     </div>
   );
 }
