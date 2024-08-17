@@ -27,7 +27,8 @@
 - Anomalies
 
 
-
+## MySQL
+- [sqliz->MySQL](https://www.sqliz.com/mysql/)
 ## leetcode
 - [book list](https://www.piratekingdom.com/books/coding) 
 
