@@ -1,25 +1,171 @@
-var decodeString = function(s) {
-    
+var compress = function (chars) {
+
+  let prevChar = chars[0];
+  let count = 1;
+  const result = [];
+  for (let i = 1; i < chars.length; i += 1) {
+    const nowChar = chars[i];
+    if (prevChar == nowChar) {
+      count += 1;
+    } else {
+      result.push(prevChar, count);
+      prevChar = nowChar;
+      count = 1; // reset
+    }
+  }
+  result.push(prevChar, count);
+  return result;
+};
+console.log(compress(["a", "a", "b", "b", "c", "c", "c"]));
+// console.log(compress(["a", "a", "b", "b", "c", "c", "c"]));
+
+var countBits = function (n) {
+  /*
+0 --> 0 = 0
+1 --> 1 = 1
+2 --> 10= 1   
+3 --> 11= 2
+
+4 --> 100=1
+5 --> 101=2
+6     110=2
+7     111=3
+
+8    1000=1
+9    1001=2
+10   1010=2
+11   1011=3
+12   1100=2
+13   1101=3
+14   1110=3
+15   1111=4
+
+    */
+  const series = [0, 1, 1, 2];
+  for (let i = 4; i <= n; i++) {
+    const toPrevious = 2 ** Math.floor(Math.log2(i));
+    series[i] = series[i - toPrevious] + 1;
+  }
+  if (n < 4) {
+    series.splice(n + 1);
+    return series.pop();
+  } else {
+    return series.pop();
+  }
+};
+// console.log(countBits(11));
+var tribonacci = function (n) {
+  const series = [0, 1, 1];
+  for (let i = 3; i <= n; i++) {
+    series[i] = series[i - 1] + series[i - 2] + series[i - 3];
+  }
+  return series[n];
 };
 
-var removeStars = function(s) {
-  let result = []
-  for(const char of s){
-    if(char == '*'){
+// const n = 25;
+// console.log(tribonacci(25));
+// Output: 1389537
+// Compute Factorial program using dynamic programming.
+function factorialDP(num) {
+  let factStoredInArray = [1];
+  for (let i = factStoredInArray.length; i <= num; i += 1) {
+    factStoredInArray[i] = i * factStoredInArray[i - 1];
+  }
+  return factStoredInArray[num];
+}
+// console.log(factorialDP(10)); //3628800
+var decodeString = function (s) {
+  const result = [];
+  const defaultObj = {
+    time: 0,
+    char: "",
+    start: true,
+  };
+  for (const char of s) {
+    // number pattern
+    const numPat = /\d/g;
+    const charPat = /\w/g;
+    if (numPat.test(char)) {
+      // console.log("this is number=>", char);
+      let { time, char: prevChar, start } = result.pop() || defaultObj;
+      if (start) {
+        // console.log("=> make the number = >", start, time, prevChar);
+        time = time * 10 + parseInt(char);
+      } else {
+        const timeChar = {
+          time: time,
+          char: prevChar,
+          start: true,
+        };
+        result.push(timeChar);
+        time = char;
+      }
+      const timeChar = {
+        time: time,
+        char: "",
+        start: true,
+      };
+      result.push(timeChar);
+    } else if (charPat.test(char)) {
+      // console.log("this is character=>", char);
+      let { time, char: prevChar } = result.pop() || defaultObj;
+      prevChar = prevChar + char;
+      const timeChar = {
+        time: time,
+        char: prevChar,
+      };
+      result.push(timeChar);
+    } else {
+      // console.log("Bracket = > ", char);
+      if (char == "[") {
+        // timechar same -
+        let { time, char: prevChar, start } = result.pop() || defaultObj;
+        const timeChar = {
+          time: time,
+          char: prevChar,
+          start: false,
+        };
+        result.push(timeChar);
+      } else {
+        // ']'
+        let { time, char: prevChar } = result.pop() || defaultObj;
+        // make the string
+        const makeString = prevChar.repeat(time);
+        let { time: nextTime, char: nextChar } = result.pop() || defaultObj;
+        nextChar = nextChar + makeString;
+        const timeChar = {
+          time: nextTime,
+          char: nextChar,
+        };
+        result.push(timeChar);
+      }
+    }
+  }
+  return result[0].char;
+};
+// console.log(decodeString("3[a2[c]]"));
+// console.log(decodeString("13[a2[c]]"));
+
+// console.log(decodeString("2[abc]3[cd]ef"));
+
+var removeStars = function (s) {
+  let result = [];
+  for (const char of s) {
+    if (char == "*") {
       result.pop();
-    }else{
+    } else {
       result.push(char);
     }
   }
-    return result.join('')
+  return result.join("");
 };
 
 // console.log(removeStars("leet**cod*e"))
 // console.log(removeStars("erase*****"))
 
-var reverseWords = function(s) {
-    let st = s.trim().split(' ').reverse()
-    return st ;
+var reverseWords = function (s) {
+  let st = s.trim().split(" ").reverse();
+  return st;
 };
 // console.log(reverseWords("the sky is blue"))
 var intToRoman = function (num) {
@@ -33,7 +179,6 @@ var intToRoman = function (num) {
 
     const valChar = calculateCharsFromNum(digit, i);
     string = `${valChar}${string}`;
-  
   }
   return string;
 };
@@ -58,7 +203,7 @@ function calculateCharsFromNum(num, index) {
       const nowStartChar = charValMap[index][0];
 
       const valChar = "" + nowStartChar + nextStartChar;
-      return valChar
+      return valChar;
     }
     console.log();
   } else if (num >= 5) {
@@ -68,18 +213,18 @@ function calculateCharsFromNum(num, index) {
 
       const times = num - 5;
       const valChar = nextStartChar + nowStartChar.repeat(times);
-      return valChar
+      return valChar;
     }
     console.log();
   } else if (num < 5) {
     if (index != 4) {
       const nowStartChar = charValMap[index][0];
       const valChar = nowStartChar.repeat(num);
-      return valChar
+      return valChar;
     } else {
       const nowStartChar = charValMap[index][0];
       const valChar = nowStartChar.repeat(num);
-      return valChar
+      return valChar;
     }
   }
 }
@@ -88,8 +233,6 @@ function calculateCharsFromNum(num, index) {
 
 // console.log(intToRoman(1994));
 // console.log(intToRoman(20));
-
-
 
 //MMM DCC XL IX
 //MMM DCC XL IX
