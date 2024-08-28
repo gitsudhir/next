@@ -1,23 +1,99 @@
-var compress = function (chars) {
+var isValid = function (s) {
+  const stack = [];
+  const parenMap = new Map();
+  parenMap.set(")", "(");
+  parenMap.set("}", "{");
+  parenMap.set("]", "[");
 
+  for (const char of s) {
+    if (stack.length && stack.at(-1) == parenMap.get(char)) {
+      stack.pop();
+    } else {
+      stack.push(char);
+    }
+  }
+  return stack.length == 0;
+};
+console.log(isValid("()[]{}"));
+console.log(isValid("(]{}"));
+
+
+var isHappy = function (n) {
+  const chache = new Map();
+  while (n != 1) {
+    if (chache.has(n)) {
+      return false;
+    }
+    chache.set(n, true);
+    // new n
+    n = String(n)
+      .split("")
+      .map((v) => Number(v) ** 2)
+      .reduce((a, b) => a + b, 0);
+    //  console.log(n);
+  }
+  return true;
+};
+// console.log(isHappy(19));
+// console.log(isHappy(2));
+
+var productExceptSelf = function (nums) {
+  const suffix = [];
+  const prefix = [];
+  const { length } = nums;
+  for (let i = 0; i < length; i += 1) {
+    prefix[i] = (prefix.at(i - 1) ?? 1) * nums[i];
+    suffix[length - 1 - i] =
+      (suffix.at(length - 1 - i + 1) ?? 1) * nums[length - 1 - i];
+  }
+  for (let i = 0; i < length; i += 1) {
+    const p = i - 1 < 0 ? 1 : prefix.at(i - 1) ?? 1;
+    const s = i + 1 > length ? 1 : suffix.at(i + 1) ?? 1;
+    nums[i] = p * s;
+  }
+  console.log(prefix, suffix);
+  return nums;
+  /*
+  [ 1, 2, 6, 24 ] 
+  [ 24, 24, 12, 4 ]
+  */
+};
+
+// console.log(productExceptSelf([1, 2, 3, 4])); // [24,12,8,6]
+
+// console.log(productExceptSelf([-1,1,0,-3,3])); // [0,0,9,0,0]
+
+var compress = function (chars) {
+  let firstPointer = 0;
   let prevChar = chars[0];
   let count = 1;
-  const result = [];
+
   for (let i = 1; i < chars.length; i += 1) {
     const nowChar = chars[i];
     if (prevChar == nowChar) {
       count += 1;
     } else {
-      result.push(prevChar, count);
+      chars.splice(firstPointer, count, prevChar);
+      if (count != 1) {
+        chars.splice(firstPointer + 1, 0, ...count.toString().split(""));
+      }
       prevChar = nowChar;
+      i = i - count - 2;
       count = 1; // reset
+      firstPointer = i;
+      // reset the i
     }
   }
-  result.push(prevChar, count);
-  return result;
+
+  chars.splice(firstPointer, count, prevChar);
+  if (count != 1) {
+    chars.splice(firstPointer + 1, 0, ...count.toString().split(""));
+  }
+  return chars;
 };
-console.log(compress(["a", "a", "b", "b", "c", "c", "c"]));
+// console.log(compress(["a","a","a","b","b","a","a"]));
 // console.log(compress(["a", "a", "b", "b", "c", "c", "c"]));
+// console.log(compress(["a","b","b","b","b","b","b","b","b","b","b","b","b"]));
 
 var countBits = function (n) {
   /*
