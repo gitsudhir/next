@@ -1,3 +1,182 @@
+function selectionSort(arr) {
+  
+  for (let i = 0; i < arr.length; i++) {
+    let min = arr[i];
+    let minIndex = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (min > arr[j]) {
+        min = arr[j];
+        minIndex = j;
+      }
+    }
+    //swap
+    let temp = arr[i];
+    arr[i] = min;
+    arr[minIndex] = temp;
+  }
+  return arr;
+}
+console.log(selectionSort([11, 2, 6, 9, 20]));
+class Solution {
+  // Merge sort function
+  mergeSort(arr, left, right) {
+    if (right - left <= 1) {
+      return arr.slice(left, right); // Return subarray when size is 1 or less
+    }
+
+    const mid = Math.floor((left + right) / 2);
+    return this.merge(
+      this.mergeSort(arr, left, mid),
+      this.mergeSort(arr, mid, right)
+    );
+  }
+
+  // Merge two sorted arrays
+  merge(left, right) {
+    const result = [];
+    let i = 0,
+      j = 0;
+
+    // Compare elements of left and right arrays
+    while (i < left.length && j < right.length) {
+      result.push(left[i] <= right[j] ? left[i++] : right[j++]);
+    }
+
+    // Append remaining elements from both arrays
+    return result.concat(left.slice(i), right.slice(j));
+  }
+}
+
+// Input
+const solution = new Solution();
+const arr = [11, 2, 6, 9, 20];
+
+// Sort the array and print the output
+// console.log(solution.mergeSort(arr, 0, arr.length).join(' '));  // Output: 2 6 9 11 20
+
+function mergeSort(arr) {
+  // console.log(arr);
+  let len = arr.length;
+  if (len <= 1) {
+    return arr;
+  }
+  const mid = len >> 1;
+
+  return merge(mergeSort(arr.slice(0, mid)), mergeSort(arr.slice(mid)));
+}
+function merge(left, right) {
+  const result = [];
+  let i = 0;
+  let j = 0;
+  while (i < left.length && j < right.length) {
+    if (left[i] > right[j]) {
+      result.push(right[j]);
+      j++;
+    } else {
+      result.push(left[i]);
+      i++;
+    }
+  }
+  result.push(...left.slice(i));
+  result.push(...right.slice(j));
+  return result;
+}
+// console.log(mergeSort([7, 2, 8, 9, 5,21,0]));
+
+function bubbleSort(arr) {
+  let swapCount = 0;
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1; j++) {
+      //swap
+      let now = arr[j];
+      let next = arr[j + 1];
+      if (now > next) {
+        arr[j] = next;
+        arr[j + 1] = now;
+        swapCount++;
+      }
+    }
+  }
+
+  return arr;
+}
+// console.log(bubbleSort([7 ,2 ,8 ,9 ,5]));
+// console.log(bubbleSort([4 ,6 ,2 ,5 ,3]));
+
+function findCurrency(votes) {
+  const map = new Map();
+  for (const vote of votes) {
+    map.set(vote, (map.get(vote) || 0) + 1);
+  }
+  const result = [];
+  for (const [key, val] of map) {
+    console.log(key, "=>", val);
+    if (val > 1) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+let votes = [4, 3, 2, 1, 2, 1];
+// console.log(findCurrency(votes))
+var stringMatching = function (words) {
+  const result = [];
+  for (let i = 0; i < words.length; i += 1) {
+    const mainWord = words[i];
+
+    for (let j = 0; j < words.length; j += 1) {
+      if (i != j) {
+        const subWord = words[j];
+        if (mainWord.includes(subWord)) {
+          result.push(subWord);
+        }
+        if (subWord.includes(mainWord)) {
+          result.push(mainWord);
+        }
+      }
+    }
+  }
+  return Array.from(new Set(result));
+};
+// console.log(stringMatching(["mass","as","hero","superhero"]));
+
+var gcdOfStrings = function (str1, str2) {
+  const set1 = new Set([...str1]);
+  const set2 = new Set([...str2]);
+  let result = "";
+  const set1Str = [...set1].join("");
+  const set2Str = [...set2].join("");
+  if (set1Str.includes(set2Str)) {
+    result += set2Str;
+  }
+
+  return result;
+};
+// console.log(gcdOfStrings("ABCABC", "ABC"))
+// console.log(gcdOfStrings("ABABAB", "ABAB"))
+// console.log(gcdOfStrings("LEET", "CODE"))
+
+function sortString(s) {
+  const mMap = new Map();
+  for (const val of s) {
+    mMap.set(val, (mMap.get(val) || 0) + 1);
+  }
+  return mMap;
+}
+const input = "ssgysyqa"; //'sssyyagq';
+// console.log(sortString(input));
+
+var restoreString = function (s, indices) {
+  let resultStr = [];
+  for (let i = 0; i < indices.length; i += 1) {
+    const index = indices[i];
+    const val = s[i];
+    resultStr[index] = val;
+  }
+  return resultStr.join("");
+};
+// console.log(restoreString("codeleet",[4,5,6,7,0,2,1,3]));
+
 var isValid = function (s) {
   const stack = [];
   const parenMap = new Map();
@@ -14,9 +193,8 @@ var isValid = function (s) {
   }
   return stack.length == 0;
 };
-console.log(isValid("()[]{}"));
-console.log(isValid("(]{}"));
-
+// console.log(isValid("()[]{}"));
+// console.log(isValid("(]{}"));
 
 var isHappy = function (n) {
   const chache = new Map();
