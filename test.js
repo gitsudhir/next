@@ -1,5 +1,229 @@
+function binarSearch(array, item) {
+  return bs(array, 0, array.length - 1, item);
+}
+function bs(array, start, end, item) {
+  if (start > end) {
+    return -1; // Item not found
+  }
+  const mid = Math.floor((start + end) / 2);
+  if (array[mid] == item) {
+    return mid;
+  } else if (array[mid] < item) {
+    return bs(array, mid + 1, end, item);
+  } else {
+    return bs(array, start, mid - 1, item);
+  }
+}
+console.log(binarSearch([3, 9, 10, 27, 38, 43, 82], 10));
+var mostFrequentEven = function (nums) {
+  let counter = new Map();
+  let maxCounter = -Infinity;
+  let maxNum = -Infinity;
+  for (const num of nums) {
+    if (num % 2 == 0) {
+      counter.set(num, (counter.get(num) || 0) + 1);
+      if (counter.get(num) > maxCounter) {
+        maxCounter = counter.get(num);
+        maxNum = num;
+      }
+    }
+  }
+  // console.log(counter);
+  return maxNum;
+};
+// console.log(mostFrequentEven([2, 2, 1, 1, 1, 2, 2]));
+
+var majorityElement = function (nums) {
+  // return nums;
+  let counter = new Map();
+  let maxCounter = -Infinity;
+  let maxNum = -Infinity;
+  for (const num of nums) {
+    counter.set(num, (counter.get(num) || 0) + 1);
+    if (counter.get(num) > maxCounter) {
+      maxCounter = counter.get(num);
+      maxNum = num;
+    }
+  }
+  console.log(counter);
+  return maxNum;
+};
+// console.log(majorityElement([2, 2, 1, 1, 1, 2, 2]));
+// console.log(majorityElement([3,2,3]));
+
+class Solution {
+  // Merge Sort Function
+  mergeSort(arr) {
+    if (arr.length <= 1) return arr; // Base case: if array has one or zero elements, it's already sorted
+
+    const mid = Math.floor(arr.length / 2); // Find the middle point
+    const left = this.mergeSort(arr.slice(0, mid)); // Recursively sort the left half
+    const right = this.mergeSort(arr.slice(mid)); // Recursively sort the right half
+
+    return this.merge(left, right); // Merge the two sorted halves
+  }
+
+  // Merge two sorted arrays
+  merge(left, right) {
+    const result = [];
+    let i = 0,
+      j = 0;
+
+    // Compare and merge elements from both arrays
+    while (i < left.length && j < right.length) {
+      if (left[i] <= right[j]) {
+        result.push(left[i++]); // Add the smaller element and increment the index
+      } else {
+        result.push(right[j++]);
+      }
+    }
+
+    // Add any remaining elements from the left or right array
+    return [...result, ...left.slice(i), ...right.slice(j)];
+  }
+}
+
+// Example Usage
+const solution = new Solution();
+// console.log(solution.mergeSort([38, 27, 43, 3, 9, 82, 10])); // Output: [3, 9, 10, 27, 38, 43, 82]
+
+class Solution2 {
+  minimumOperations(nums) {
+    let count1 = 0,
+      count2 = 0,
+      count3 = 0;
+
+    // Step 1: Count the number of each group (1s, 2s, 3s)
+    for (let num of nums) {
+      if (num === 1) count1++;
+      else if (num === 2) count2++;
+      else if (num === 3) count3++;
+    }
+
+    // Step 2: Track misplaced elements in each section
+    let misplaced12 = 0,
+      misplaced13 = 0; // Misplaced in group 1 section
+    let misplaced21 = 0,
+      misplaced23 = 0; // Misplaced in group 2 section
+    let misplaced31 = 0,
+      misplaced32 = 0; // Misplaced in group 3 section
+
+    // Group 1 section: nums[0] to nums[count1 - 1]
+    for (let i = 0; i < count1; i++) {
+      if (nums[i] === 2) misplaced12++;
+      if (nums[i] === 3) misplaced13++;
+    }
+
+    // Group 2 section: nums[count1] to nums[count1 + count2 - 1]
+    for (let i = count1; i < count1 + count2; i++) {
+      if (nums[i] === 1) misplaced21++;
+      if (nums[i] === 3) misplaced23++;
+    }
+
+    // Group 3 section: nums[count1 + count2] to nums[count1 + count2 + count3 - 1]
+    for (let i = count1 + count2; i < count1 + count2 + count3; i++) {
+      if (nums[i] === 1) misplaced31++;
+      if (nums[i] === 2) misplaced32++;
+    }
+
+    // Step 3: Calculate the minimum swaps needed
+    // Direct swaps between the misplaced pairs
+    let directSwap12 = Math.min(misplaced12, misplaced21);
+    let directSwap13 = Math.min(misplaced13, misplaced31);
+    let directSwap23 = Math.min(misplaced23, misplaced32);
+
+    // After direct swaps, calculate remaining misplaced guests in cycles
+    // Remaining misplaced guests in each group section
+    let remainingMisplaced12 = misplaced12 - directSwap12;
+    let remainingMisplaced13 = misplaced13 - directSwap13;
+    let remainingMisplaced23 = misplaced23 - directSwap23;
+
+    // Cycle swaps: Remaining misplaced guests need 2 swaps to resolve
+    let cycleSwaps =
+      remainingMisplaced12 + remainingMisplaced13 + remainingMisplaced23;
+
+    // Total swaps: Direct swaps + Cycle swaps
+    return directSwap12 + directSwap13 + directSwap23 + cycleSwaps;
+  }
+}
+
+// Example Usage:
+// let solution2 = new Solution2();
+// console.log(solution2.minimumOperations([2, 1, 3, 2, 1])); // Output: 3
+// console.log(solution2.minimumOperations([1, 3, 2, 1, 3, 3])); // Output: 2
+// console.log(solution2.minimumOperations([2, 2, 2, 2, 3, 3])); // Output: 0
+
+function quickSort(array, start, end) {
+  if (start < end) {
+    const pivotIndex = partition(array, start, end);
+    quickSort(array, start, pivotIndex - 1); // Fix recursive call for left partition
+    quickSort(array, pivotIndex + 1, end); // Fix recursive call for right partition
+  }
+}
+
+function partition(array, start, end) {
+  const pivot = array[end]; // Pivot set to the last element of the current subarray
+  let i = start - 1;
+
+  for (let j = start; j < end; j++) {
+    if (array[j] < pivot) {
+      i++;
+      // Swap array[i] and array[j]
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  // Swap array[i + 1] and array[end] (the pivot)
+  [array[i + 1], array[end]] = [array[end], array[i + 1]];
+  return i + 1; // Return the index of the pivot
+}
+
+const array = [11, 2, 6, 9, 20, 30, 1, 3, 7];
+quickSort(array, 0, array.length - 1);
+// console.log(array); // Outputs the sorted array
+
+function solve(inventory1, inventory2) {
+  //Write your code here
+  let result = [];
+  const strArry1 = inventory1.split(" ");
+  const strArry2 = inventory2.split(" ");
+  let str1Inc = 0;
+  let str2Inc = 0;
+
+  while (str1Inc < strArry1.length && str2Inc < strArry2.length) {
+    if (String(strArry1[str1Inc]).localeCompare(strArry2[str2Inc]) <= 0) {
+      result.push(strArry1[str1Inc]);
+      str1Inc++;
+    } else {
+      result.push(strArry2[str2Inc]);
+      str2Inc++;
+    }
+  }
+  result = result.concat(strArry1.slice(str1Inc), strArry2.slice(str2Inc));
+  return result.join(" ");
+}
+// console.log(solve("book enchanted spell wand", "ancient dragon magic scroll"));
+
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i]; // store the current element
+    let j = i - 1;
+
+    // Shift elements that are greater than current to one position ahead
+    while (j >= 0 && arr[j] > current) {
+      arr[j + 1] = arr[j]; // Shift the larger element
+      j--;
+    }
+
+    // Insert the current element into its correct position
+    arr[j + 1] = current;
+  }
+  return arr;
+}
+
+// console.log(insertionSort([11, 2, 6, 9, 20]));
+
 function selectionSort(arr) {
-  
   for (let i = 0; i < arr.length; i++) {
     let min = arr[i];
     let minIndex = i;
@@ -16,8 +240,8 @@ function selectionSort(arr) {
   }
   return arr;
 }
-console.log(selectionSort([11, 2, 6, 9, 20]));
-class Solution {
+// console.log(selectionSort([11, 2, 6, 9, 20]));
+class Solution1 {
   // Merge sort function
   mergeSort(arr, left, right) {
     if (right - left <= 1) {
@@ -48,7 +272,7 @@ class Solution {
 }
 
 // Input
-const solution = new Solution();
+const solution1 = new Solution1();
 const arr = [11, 2, 6, 9, 20];
 
 // Sort the array and print the output
