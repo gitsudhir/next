@@ -1,3 +1,182 @@
+function myPartition(array, start, end) {
+  // Initialize the pointer for the smaller elements
+  let smallerElementIndex = start;
+  const pivot = array[end]; // Set the pivot as the last element of the array
+
+  // Iterate over the array from start to one element before the pivot
+  for (let currentIndex = start; currentIndex < end; currentIndex++) {
+    // If the current element is smaller than the pivot
+    if (array[currentIndex] < pivot) {
+      // Swap the current element with the element at smallerElementIndex
+      [array[smallerElementIndex], array[currentIndex]] = [
+        array[currentIndex],
+        array[smallerElementIndex],
+      ];
+      smallerElementIndex++; // Move the smallerElementIndex forward
+    }
+  }
+
+  // Place the pivot in its correct position
+  [array[smallerElementIndex], array[end]] = [
+    array[end],
+    array[smallerElementIndex],
+  ];
+
+  // Log the modified array for debugging purposes
+  console.log(array);
+
+  // Return the index of the pivot after partitioning
+  return smallerElementIndex;
+}
+
+function myQuickSelect(array, start, end, k) {
+  if (array.length == 1 && k == 0) {
+    return array[0];
+  } else {
+    // partition
+    const pivotIndex = myPartition(array, start, end);
+    if (pivotIndex == k) {
+      return array[pivotIndex];
+    } else if (pivotIndex < k) {
+      return myQuickSelect(array, pivotIndex + 1, end, k);
+    } else {
+      return myQuickSelect(array, start, pivotIndex - 1, k);
+    }
+  }
+}
+const myArray = [11, 2, 6, 9, 20, 30, 1, 3, 7];
+const kth = 1;
+console.log(myQuickSelect(myArray, 0, myArray.length - 1, kth - 1)); // Outputs the index of the pivot
+
+function quickSelect(array, start, end, k) {
+  if (start <= end) {
+    // Check needs to include equality for handling single element partitions
+    const pivotIndex = qspartition(array, start, end);
+
+    if (pivotIndex === k) {
+      return array[pivotIndex];
+    } else if (pivotIndex < k) {
+      return quickSelect(array, pivotIndex + 1, end, k); // Search the right side
+    } else {
+      return quickSelect(array, start, pivotIndex - 1, k); // Search the left side
+    }
+  }
+  return -1; // Return -1 if k is out of bounds
+}
+
+function qspartition(array, start, end) {
+  const pivot = array[end]; // Pivot set to the last element of the current subarray
+  let i = start - 1;
+
+  for (let j = start; j < end; j++) {
+    if (array[j] < pivot) {
+      i++;
+      // Swap array[i] and array[j]
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  // Swap array[i + 1] and array[end] (the pivot)
+  [array[i + 1], array[end]] = [array[end], array[i + 1]];
+  return i + 1; // Return the index of the pivot
+}
+
+// Test the function with a sample array
+const arrayval = [11, 2, 6, 9, 20, 30, 1, 3, 7];
+let k = 2; // Find the 3rd smallest element (0-based index 2)
+// let secondLargest = quickSelect(arrayval, 0, arrayval.length - 1, k);
+// console.log({ secondLargest }); // Outputs the 3rd smallest element
+
+var superPow = function (a, b) {
+  return solve(a, parseInt(b.join("")));
+};
+function solve(a, b) {
+  if (b == 2) {
+    return a * a;
+  }
+  if (b == 1) {
+    return a;
+  }
+  if (b % 2 == 0) {
+    return solve(a, Math.floor(b / 2)) * solve(a, Math.floor(b / 2));
+  } else {
+    return solve(a, Math.floor(b / 2)) * solve(a, Math.floor(b / 2)) * a;
+  }
+}
+// console.log(superPow(2, [1, 0]));
+function maxMin(array) {
+  if (array.length == 2) {
+    return [Math.max(array[0], array[1]), Math.min(array[0], array[1])];
+  }
+  if (array.length == 1) {
+    return [array[0], array[0]];
+  }
+  let mid = Math.floor(array.length / 2);
+  const firstHalf = maxMin(array.slice(0, mid));
+  const lastHalf = maxMin(array.slice(mid));
+
+  return [
+    Math.max(firstHalf[0], lastHalf[0]),
+    Math.min(firstHalf[1], lastHalf[1]),
+  ];
+}
+// console.log(maxMin([9, 6, 4, 7, 10, 14, 8, 11, 1]));
+var getMaximumGenerated = function (n) {
+  const nums = [];
+  nums[0] = 0;
+  nums[1] = 1;
+  for (let i = 1; i < n / 2; i++) {
+    nums[i * 2] = nums[i];
+    nums[2 * i + 1] = nums[i] + nums[i + 1];
+  }
+  return nums;
+};
+// console.log(getMaximumGenerated(7))
+function wordCorrection(s) {
+  let upper = 0;
+  let lower = 0;
+  for (const ch of s) {
+    if (/[a-z]/.test(ch)) {
+      lower++;
+    } else {
+      upper++;
+    }
+  }
+  if (lower < upper) {
+    return s.toUpperCase();
+  } else {
+    return s.toLowerCase();
+  }
+}
+// console.log(wordCorrection("HoUse"));
+var subsets = function (nums) {
+  const times = (1 << nums.length) - 1;
+  const result = [];
+  for (let i = 0; i <= times; i++) {
+    result.push(transform(nums, i, nums.length));
+  }
+  return result;
+};
+function transform(nums, i, base) {
+  const tempArr = i.toString(2).padStart(base, "0").split("");
+  const tempResult = [];
+  for (const ind in tempArr) {
+    if (tempArr[ind] != "0") {
+      tempResult.push(nums[ind]);
+    }
+  }
+  return tempResult;
+}
+// console.log(subsets([1, 2, 3]));
+function rotateArray(array, step) {
+  // while (step--) {
+  array.unshift(...array.splice(-step));
+  // }
+  return array;
+}
+
+// console.log(rotateArray([1, 2, 3, 4, 5, 6, 7], 3));
+
 function binarSearch(array, item) {
   return bs(array, 0, array.length - 1, item);
 }
@@ -14,7 +193,7 @@ function bs(array, start, end, item) {
     return bs(array, start, mid - 1, item);
   }
 }
-console.log(binarSearch([3, 9, 10, 27, 38, 43, 82], 10));
+// console.log(binarSearch([3, 9, 10, 27, 38, 43, 82], 10));
 var mostFrequentEven = function (nums) {
   let counter = new Map();
   let maxCounter = -Infinity;
@@ -160,8 +339,19 @@ function quickSort(array, start, end) {
     quickSort(array, pivotIndex + 1, end); // Fix recursive call for right partition
   }
 }
-
-function partition(array, start, end) {
+function _quickSelect(array, start, end, k) {
+  if (start < end) {
+    const pivotIndex = partition(array, start, end);
+    if (pivotIndex == k) {
+      return array[pivotIndex];
+    } else if (pivotIndex < k) {
+      return quickSelect(array, start, pivotIndex - 1, k); // Fix recursive call for left partition
+    } else {
+      return quickSelect(array, pivotIndex + 1, end, k); // Fix recursive call for right partition
+    }
+  }
+}
+function _partition(array, start, end) {
   const pivot = array[end]; // Pivot set to the last element of the current subarray
   let i = start - 1;
 
@@ -179,29 +369,29 @@ function partition(array, start, end) {
 }
 
 const array = [11, 2, 6, 9, 20, 30, 1, 3, 7];
-quickSort(array, 0, array.length - 1);
-// console.log(array); // Outputs the sorted array
+let val = quickSelect(array, 0, array.length - 1, 2);
+// console.log({ val }); // Outputs the sorted array
 
-function solve(inventory1, inventory2) {
-  //Write your code here
-  let result = [];
-  const strArry1 = inventory1.split(" ");
-  const strArry2 = inventory2.split(" ");
-  let str1Inc = 0;
-  let str2Inc = 0;
+// function solve(inventory1, inventory2) {
+//   //Write your code here
+//   let result = [];
+//   const strArry1 = inventory1.split(" ");
+//   const strArry2 = inventory2.split(" ");
+//   let str1Inc = 0;
+//   let str2Inc = 0;
 
-  while (str1Inc < strArry1.length && str2Inc < strArry2.length) {
-    if (String(strArry1[str1Inc]).localeCompare(strArry2[str2Inc]) <= 0) {
-      result.push(strArry1[str1Inc]);
-      str1Inc++;
-    } else {
-      result.push(strArry2[str2Inc]);
-      str2Inc++;
-    }
-  }
-  result = result.concat(strArry1.slice(str1Inc), strArry2.slice(str2Inc));
-  return result.join(" ");
-}
+//   while (str1Inc < strArry1.length && str2Inc < strArry2.length) {
+//     if (String(strArry1[str1Inc]).localeCompare(strArry2[str2Inc]) <= 0) {
+//       result.push(strArry1[str1Inc]);
+//       str1Inc++;
+//     } else {
+//       result.push(strArry2[str2Inc]);
+//       str2Inc++;
+//     }
+//   }
+//   result = result.concat(strArry1.slice(str1Inc), strArry2.slice(str2Inc));
+//   return result.join(" ");
+// }
 // console.log(solve("book enchanted spell wand", "ancient dragon magic scroll"));
 
 function insertionSort(arr) {
