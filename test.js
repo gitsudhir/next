@@ -1,3 +1,56 @@
+var calculate = function (s) {
+  let valueStack = [];
+  let operatorStack = [];
+  let num = ""; // to accumulate digits
+  let lastSign = 1; // +1 for positive, -1 for negative numbers
+  let result = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+
+    if (char === " ") continue; // bypass spaces
+
+    if (/\d/.test(char)) {
+      // Accumulate digit
+      num += char;
+    } else {
+      if (num !== "") {
+        result += lastSign * parseInt(num); // Apply last sign to the number
+        num = ""; // reset num
+      }
+
+      if (char === "+") {
+        lastSign = 1; // Update lastSign to positive
+      } else if (char === "-") {
+        lastSign = -1; // Update lastSign to negative
+      } else if (char === "(") {
+        // Push current result and sign, and reset for new context
+        valueStack.push(result);
+        operatorStack.push(lastSign);
+        result = 0; // Reset result for new subexpression
+        lastSign = 1; // Reset lastSign
+      } else if (char === ")") {
+        // Complete the subexpression
+        if (num !== "") {
+          result += lastSign * parseInt(num); // Apply current sign to number
+          num = ""; // reset num
+        }
+        result = operatorStack.pop() * result + valueStack.pop(); // Apply saved sign and add to saved result
+      }
+    }
+  }
+
+  // Add the last accumulated number if there was any
+  if (num !== "") {
+    result += lastSign * parseInt(num);
+  }
+
+  return result;
+};
+
+// // Test case
+let stack = "(1+(4+5+2)-3)+(6+8)";
+console.log(calculate(stack)); // Should output 23
 function myPartition(array, start, end) {
   // Initialize the pointer for the smaller elements
   let smallerElementIndex = start;
@@ -23,7 +76,7 @@ function myPartition(array, start, end) {
   ];
 
   // Log the modified array for debugging purposes
-  console.log(array);
+  // console.log(array);
 
   // Return the index of the pivot after partitioning
   return smallerElementIndex;
@@ -46,7 +99,7 @@ function myQuickSelect(array, start, end, k) {
 }
 const myArray = [11, 2, 6, 9, 20, 30, 1, 3, 7];
 const kth = 1;
-console.log(myQuickSelect(myArray, 0, myArray.length - 1, kth - 1)); // Outputs the index of the pivot
+// console.log(myQuickSelect(myArray, 0, myArray.length - 1, kth - 1)); // Outputs the index of the pivot
 
 function quickSelect(array, start, end, k) {
   if (start <= end) {
