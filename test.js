@@ -1,3 +1,165 @@
+
+class MyListNode {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+class MyLinkedList {
+  constructor(head = null) {
+    this.head = head;
+  }
+  print() {
+    let current = this.head;
+    while (current) {
+      console.log(" ➡️ .", current.data);
+      current = current.next;
+    }
+  }
+  insert(node) {
+    let current = this.head;
+    if (this.head) {
+      while (current?.next) {
+        current = current.next;
+      }
+      current.next = node;
+    } else {
+      this.head = node;
+    }
+  }
+  toReverseArray(current = this.head, result = []) {
+    if (current != null) {
+      this.toReverseArray(current.next, result);
+      result.push(current.data);
+      return result;
+    }
+  }
+  toReverse(current = this.head, previous = null) {
+    if (current == null) {
+      // Set the head to the last node processed, which becomes the new head.
+      this.head = previous;
+      return;
+    }
+
+    // Store the next node before changing the reference
+    let nextNode = current.next;
+    // Reverse the `next` pointer of the current node
+    current.next = previous;
+    // Recurse with the next node and the current node as the new previous
+    this.toReverse(nextNode, current);
+  }
+
+  toArray(current = this.head, result = []) {
+    if (current != null) {
+      result.push(current.data);
+      this.toArray(current.next, result);
+      return result;
+    }
+  }
+  get length() {
+    return this.toArray().length;
+  }
+  delete(data) {
+    if (!this.head) {
+      return; // List is empty
+    }
+    if (this.head.data === data) {
+      this.head = this.head.next;
+      return;
+    }
+    let current = this.head;
+    while (current.next !== null) {
+      if (current.next.data === data) {
+        current.next = current.next.next;
+        return;
+      }
+      current = current.next;
+    }
+  }
+}
+
+let list = new MyLinkedList();
+let myVal = [1, 2, 3, 4, 5];
+
+for (const val of myVal) {
+  const node = new MyListNode(val);
+  list.insert(node);
+}
+
+// console.log("array linked list = > ", list.toArray());
+// console.log("reverse array linked list = > ", list.toReverseArray());
+// console.log("linkedlist size is = > ", list.toReverse());
+// list.delete(3);
+// list.print();
+// list.reverse();
+//------------ add to number 
+/**
+ * Definition for singly-linked list.
+ */
+function ListNode(val, next) {
+  this.val = (val === undefined ? 0 : val);
+  this.next = (next === undefined ? null : next);
+}
+
+/**
+* @param {ListNode} l1
+* @param {ListNode} l2
+* @return {ListNode}
+*/
+var addTwoNumbers = function (l1, l2) {
+  let stack1 = [];
+  let stack2 = [];
+
+  // Push all elements of l1 into stack1
+  while (l1 !== null) {
+      stack1.push(l1.val);
+      l1 = l1.next;
+  }
+
+  // Push all elements of l2 into stack2
+  while (l2 !== null) {
+      stack2.push(l2.val);
+      l2 = l2.next;
+  }
+
+  let carry = 0;
+  let result = null;
+
+  // While there are elements in stack1 or stack2 or there is a carry
+  while (stack1.length > 0 || stack2.length > 0 || carry > 0) {
+      let sum = carry;
+
+      if (stack1.length > 0) {
+          sum += stack1.pop();
+      }
+      if (stack2.length > 0) {
+          sum += stack2.pop();
+      }
+
+      // Create a new node with the digit
+      let newNode = new ListNode(sum % 10);
+      // Adjust the next pointer to point to the current result
+      newNode.next = result;
+      result = newNode;
+
+      // Update the carry
+      carry = Math.floor(sum / 10);
+  }
+
+  return result;
+};
+
+// -----------------------------------------------------------
+var decodeString = function (s) {
+  return usingRecursion(s.split(""), []);
+};
+function usingRecursion(s, stack) {
+  if (s[0] > "0" && s[0] < "9") {
+    return;
+  }
+}
+// console.log(decodeString("2[abc]3[cd]ef"));
+
 var calculate = function (s) {
   let valueStack = [];
   let operatorStack = [];
@@ -49,8 +211,8 @@ var calculate = function (s) {
 };
 
 // // Test case
-let stack = "(1+(4+5+2)-3)+(6+8)";
-console.log(calculate(stack)); // Should output 23
+// let stack = "(1+(4+5+2)-3)+(6+8)";
+// console.log(calculate(stack)); // Should output 23
 function myPartition(array, start, end) {
   // Initialize the pointer for the smaller elements
   let smallerElementIndex = start;
@@ -795,7 +957,7 @@ function factorialDP(num) {
   return factStoredInArray[num];
 }
 // console.log(factorialDP(10)); //3628800
-var decodeString = function (s) {
+var _decodeString = function (s) {
   const result = [];
   const defaultObj = {
     time: 0,
