@@ -1,4 +1,32 @@
-
+/**
+ * @param {string[]} operations
+ * @return {number}
+ */
+var calPoints = function (operations) {
+  console.log("input => ", operations);
+  let stack = [];
+  for (const val of operations) {
+    console.log("now => ", stack);
+    if (val == "+") {
+      const second = stack.pop();
+      const first = stack.pop();
+      stack.push(first + second);
+    } else if (val == "C") {
+      stack.pop();
+    } else if (val == "D") {
+      // const lastItem = stack.pop();
+      // console.log(lastItem)
+      // stack.push(lastItem);
+      stack.push(2 * 9);
+    } else {
+      stack.push(1 * val);
+      console.log("num", val, stack);
+    }
+  }
+  console.log(stack);
+  return stack.reduce((val, s) => val + s, 0);
+};
+console.log(calPoints(["5", "-2", "4", "C", "D", "9", "+", "+"]));
 class MyListNode {
   constructor(data) {
     this.data = data;
@@ -92,34 +120,34 @@ for (const val of myVal) {
 // list.delete(3);
 // list.print();
 // list.reverse();
-//------------ add to number 
+//------------ add to number
 /**
  * Definition for singly-linked list.
  */
-function ListNode(val, next) {
-  this.val = (val === undefined ? 0 : val);
-  this.next = (next === undefined ? null : next);
+function _ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
 }
 
 /**
-* @param {ListNode} l1
-* @param {ListNode} l2
-* @return {ListNode}
-*/
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
 var addTwoNumbers = function (l1, l2) {
   let stack1 = [];
   let stack2 = [];
 
   // Push all elements of l1 into stack1
   while (l1 !== null) {
-      stack1.push(l1.val);
-      l1 = l1.next;
+    stack1.push(l1.val);
+    l1 = l1.next;
   }
 
   // Push all elements of l2 into stack2
   while (l2 !== null) {
-      stack2.push(l2.val);
-      l2 = l2.next;
+    stack2.push(l2.val);
+    l2 = l2.next;
   }
 
   let carry = 0;
@@ -127,23 +155,23 @@ var addTwoNumbers = function (l1, l2) {
 
   // While there are elements in stack1 or stack2 or there is a carry
   while (stack1.length > 0 || stack2.length > 0 || carry > 0) {
-      let sum = carry;
+    let sum = carry;
 
-      if (stack1.length > 0) {
-          sum += stack1.pop();
-      }
-      if (stack2.length > 0) {
-          sum += stack2.pop();
-      }
+    if (stack1.length > 0) {
+      sum += stack1.pop();
+    }
+    if (stack2.length > 0) {
+      sum += stack2.pop();
+    }
 
-      // Create a new node with the digit
-      let newNode = new ListNode(sum % 10);
-      // Adjust the next pointer to point to the current result
-      newNode.next = result;
-      result = newNode;
+    // Create a new node with the digit
+    let newNode = new ListNode(sum % 10);
+    // Adjust the next pointer to point to the current result
+    newNode.next = result;
+    result = newNode;
 
-      // Update the carry
-      carry = Math.floor(sum / 10);
+    // Update the carry
+    carry = Math.floor(sum / 10);
   }
 
   return result;
