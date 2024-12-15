@@ -250,7 +250,7 @@ export default function Home() {
           </a>{" "}
           or connect with me on{" "}
           <a
-            href="https://www.linkedin.com/in/sudhirkumar"
+            href="https://www.linkedin.com/in/sudhirkumar-in"
             className="text-blue-500 hover:text-blue-700"
           >
             LinkedIn
