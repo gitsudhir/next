@@ -228,7 +228,7 @@ export default function Home() {
               Earned the prestigious SQL 50 badge on LeetCode, recognizing my
               dedication and expertise in working with databases. This
               achievement reflects my strong foundation in SQL, which I
-              regularly apply in backend development and data engineering. I'm
+              regularly apply in backend development and data engineering. I&apos;m
               excited to continue honing my database skills and leverage them in
               new and challenging projects.
             </p>
@@ -255,7 +255,7 @@ export default function Home() {
           >
             LinkedIn
           </a>
-          . I'm always open to new opportunities and collaborations!
+          . I&apos;m always open to new opportunities and collaborations!
         </p>
         <p className="mt-4 text-gray-600">
           🌟 Recently earned the SQL 50 badge on LeetCode, highlighting my
