@@ -168,7 +168,7 @@ export default function GyroscopeControl() {
     console.log('Successfully stopped listening');
   };
 
-  // Send data to ESP32 server
+  // Send data to ESP32 server (matrix API)
   const sendDataToESP32 = async () => {
     if (!esp32IP) {
       setError('Please enter an IP address');
@@ -177,20 +177,36 @@ export default function GyroscopeControl() {
 
     try {
       setSending(true);
-      const payload = {
-        gyro: gyroData,
-        accel: accelData,
-        timestamp: new Date().toISOString()
-      };
-
-      console.log('Sending data to ESP32:', payload);
       
-      const response = await fetch(`/api/esp32/send-data?ip=${encodeURIComponent(esp32IP)}`, {
+      // Map gyroscope data to matrix coordinates (0-7)
+      let matrixX = 3; // Default center
+      let matrixY = 3; // Default center
+      
+      if (gyroData.x !== null) {
+        // Map alpha (compass) from -180 to 180 degrees to 0-7
+        matrixX = Math.round(((gyroData.x + 180) / 360) * 7);
+        matrixX = Math.max(0, Math.min(7, matrixX)); // Constrain to 0-7
+      }
+      
+      if (gyroData.y !== null) {
+        // Map beta (front-to-back) from -180 to 180 degrees to 0-7
+        matrixY = Math.round(((gyroData.y + 180) / 360) * 7);
+        matrixY = Math.max(0, Math.min(7, matrixY)); // Constrain to 0-7
+      }
+      
+      // Create dot pattern (8x8 matrix with single dot)
+      const dotPattern = Array(8).fill(null).map(() => Array(8).fill(0));
+      dotPattern[matrixY][matrixX] = 1; // Set the dot position
+      
+      console.log('Sending dot pattern to matrix:', { matrixX, matrixY, pattern: dotPattern });
+      
+      // Send pattern to matrix API
+      const response = await fetch(`http://${esp32IP}/api/matrix/pattern`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ pattern: dotPattern }),
       });
 
       if (!response.ok) {
@@ -198,10 +214,10 @@ export default function GyroscopeControl() {
       }
 
       setLastSent(formatTime(new Date()));
-      console.log('Data sent successfully');
+      console.log('Dot pattern sent successfully');
     } catch (err) {
-      console.error('Failed to send data:', err);
-      setError('Failed to send data: ' + (err as Error).message);
+      console.error('Failed to send dot pattern:', err);
+      setError('Failed to send dot pattern: ' + (err as Error).message);
     } finally {
       setSending(false);
     }
@@ -215,7 +231,7 @@ export default function GyroscopeControl() {
       intervalRef.current = null;
     } else {
       console.log('Starting continuous sending');
-      intervalRef.current = setInterval(sendDataToESP32, 1000); // Send every second
+      intervalRef.current = setInterval(sendDataToESP32, 200); // Send every 200ms for smoother movement
     }
   };
 
@@ -379,11 +395,44 @@ export default function GyroscopeControl() {
                     </div>
                     <div className="ml-3">
                       <p className="text-sm text-yellow-700">
-                        <strong>Tip:</strong> Move your device in different directions to see the sensor values change. 
+                        <strong>Tip:</strong> Move your device in different directions to see the dot move on the LED matrix. 
                         If values remain as &quot;N/A&quot;, check the troubleshooting tips below.
                       </p>
                     </div>
                   </div>
+                </div>
+                
+                {/* Matrix Visualization */}
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <h3 className="font-semibold text-gray-900 mb-3">Matrix Visualization</h3>
+                  <p className="text-sm text-gray-600 mb-3">This is what will be displayed on your 8x8 LED matrix:</p>
+                  <div className="flex justify-center">
+                    <div className="inline-grid grid-cols-8 gap-1 bg-gray-800 p-2 rounded-lg">
+                      {Array.from({ length: 8 }).map((_, rowIndex) => (
+                        Array.from({ length: 8 }).map((_, colIndex) => {
+                          // Calculate if this cell should be active based on current gyro data
+                          const isActive = isListening && 
+                                          gyroData.x !== null && 
+                                          gyroData.y !== null &&
+                                          rowIndex === Math.round(((gyroData.y + 180) / 360) * 7) &&
+                                          colIndex === Math.round(((gyroData.x + 180) / 360) * 7);
+                          
+                          return (
+                            <div 
+                              key={`${rowIndex}-${colIndex}`} 
+                              className={`w-4 h-4 sm:w-5 sm:h-5 rounded-sm ${
+                                isActive ? 'bg-orange-500' : 'bg-gray-900'
+                              }`}
+                            />
+                          );
+                        })
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2 text-center">
+                    Dot position: X={gyroData.x !== null ? Math.round(((gyroData.x + 180) / 360) * 7) : 'N/A'}, 
+                    Y={gyroData.y !== null ? Math.round(((gyroData.y + 180) / 360) * 7) : 'N/A'}
+                  </p>
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -425,7 +474,7 @@ export default function GyroscopeControl() {
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                         </svg>
-                        Send Data
+                        Send Dot to Matrix
                       </>
                     )}
                   </button>
@@ -444,7 +493,7 @@ export default function GyroscopeControl() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
                         </svg>
-                        Stop Continuous
+                        Stop Continuous Dot
                       </>
                     ) : (
                       <>
@@ -452,7 +501,7 @@ export default function GyroscopeControl() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        Continuous Send
+                        Continuous Dot Movement
                       </>
                     )}
                   </button>
