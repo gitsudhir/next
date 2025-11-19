@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 text-gray-900 p-6">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 text-gray-900 p-4 sm:p-6">
       {/* Header Section */}
       <header className="text-center mb-12">
         <h1 className="text-4xl font-bold text-red-600 mb-2">Sudhir Kumar</h1>
@@ -30,9 +30,9 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
+      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Technical Skills</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           <div>
             <h3 className="font-semibold">Frontend</h3>
             <ul className="list-disc pl-5">
@@ -91,7 +91,7 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
+      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Experience</h2>
         <div className="space-y-6">
           <div className="space-y-2">
@@ -146,7 +146,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
+      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Selected Projects</h2>
         <div className="space-y-6">
           <div className="space-y-2">
@@ -180,7 +180,7 @@ export default function Home() {
         </div>
       </section>
       {/* Education Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
+      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Education</h2>
         <div className="space-y-6">
           <div className="space-y-2">
@@ -200,7 +200,7 @@ export default function Home() {
         </div>
       </section>
       {/* Certifications Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
+      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Certifications</h2>
         <div className="space-y-6">
           <div className="space-y-2">
@@ -218,7 +218,7 @@ export default function Home() {
         </div>
       </section>
       {/* Achievements Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
+      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Achievements</h2>
         <div className="space-y-6">
           <div className="space-y-2">
@@ -237,7 +237,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <footer className="text-center mt-12 mb-4">
+      <footer className="text-center mt-12 mb-4 p-4 sm:p-6">
         <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
         <p>
           You can reach out to me via phone at{" "}

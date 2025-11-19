@@ -673,22 +673,22 @@ export default function MatrixControl() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">MAX7219 8x8 LED Matrix Control</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">MAX7219 8x8 LED Matrix Control</h1>
           <p className="mt-2 text-gray-600">Scrolling text display for your ESP32-connected LED matrix</p>
         </div>
         
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-          <div className="px-6 py-4 bg-gradient-to-r from-blue-500 to-indigo-600">
-            <h2 className="text-xl font-bold text-white">Device Configuration</h2>
+          <div className="px-4 sm:px-6 py-4 bg-gradient-to-r from-blue-500 to-indigo-600">
+            <h2 className="text-lg sm:text-xl font-bold text-white">Device Configuration</h2>
           </div>
           
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">ESP32 IP Address</label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={esp32IP}
@@ -699,14 +699,14 @@ export default function MatrixControl() {
                 <button
                   onClick={checkStatus}
                   disabled={isLoading}
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-300 disabled:to-gray-400 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-300 disabled:to-gray-400 text-white font-medium py-2 px-4 rounded-lg transition duration-300 w-full sm:w-auto"
                 >
                   {isLoading ? 'Checking...' : 'Check Status'}
                 </button>
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <div className="bg-blue-50 p-4 rounded-lg">
                 <div className="text-sm text-blue-800 font-medium">Connection Status</div>
                 <div className={`text-lg font-bold ${isConnected ? 'text-green-600' : 'text-red-600'}`}>
@@ -911,8 +911,8 @@ export default function MatrixControl() {
             <h2 className="text-xl font-bold text-white">API Information</h2>
           </div>
           
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-4 sm:p-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-3">Available Endpoints</h3>
                 <ul className="space-y-2 text-gray-600 list-disc pl-5">

@@ -230,15 +230,15 @@ export default function GyroscopeControl() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Gyroscope Control</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Gyroscope Control</h1>
           <p className="text-gray-600">Send device motion data to your ESP32</p>
         </div>
         
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
-          <div className="px-6 py-5 bg-gradient-to-r from-blue-500 to-indigo-600">
+          <div className="px-4 sm:px-6 py-5 bg-gradient-to-r from-blue-500 to-indigo-600">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex-1 w-full">
                 <label className="block text-sm font-medium text-blue-100 mb-1">ESP32 IP Address</label>
@@ -322,7 +322,7 @@ export default function GyroscopeControl() {
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
                   <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-5">
                     <h3 className="text-lg font-semibold text-purple-800 mb-3 flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -468,7 +468,7 @@ export default function GyroscopeControl() {
           </div>
           
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-3">Common Issues & Solutions</h3>
                 <ul className="space-y-3 text-gray-600">

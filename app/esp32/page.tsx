@@ -73,19 +73,19 @@ export default function ESP32Control() {
   }, [esp32IP]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">ESP32 Status Monitor</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">ESP32 Status Monitor</h1>
           <p className="text-gray-600">Monitor your ESP32 devices in real-time</p>
         </div>
         
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
-          <div className="px-6 py-5 bg-gradient-to-r from-blue-500 to-indigo-600">
+          <div className="px-4 sm:px-6 py-5 bg-gradient-to-r from-blue-500 to-indigo-600">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex-1 w-full">
                 <label className="block text-sm font-medium text-blue-100 mb-1">ESP32 IP Address</label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={esp32IP}
@@ -96,7 +96,7 @@ export default function ESP32Control() {
                   <button
                     onClick={fetchData}
                     disabled={loading}
-                    className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-medium transition duration-300 disabled:opacity-50"
+                    className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-medium transition duration-300 disabled:opacity-50 w-full sm:w-auto"
                   >
                     {loading ? 'Connecting...' : 'Connect'}
                   </button>
@@ -152,8 +152,8 @@ export default function ESP32Control() {
               </div>
             ) : data ? (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-5">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 sm:p-5">
                     <h3 className="text-lg font-semibold text-green-800 mb-3 flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
@@ -185,7 +185,7 @@ export default function ESP32Control() {
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-5">
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-4 sm:p-5">
                     <h3 className="text-lg font-semibold text-blue-800 mb-3 flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4 4 0 003 15z"></path>
@@ -248,12 +248,12 @@ export default function ESP32Control() {
         </div>
         
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="px-6 py-5 bg-gradient-to-r from-indigo-500 to-purple-600">
-            <h2 className="text-xl font-bold text-white">Monitoring Information</h2>
+          <div className="px-4 sm:px-6 py-5 bg-gradient-to-r from-indigo-500 to-purple-600">
+            <h2 className="text-lg sm:text-xl font-bold text-white">Monitoring Information</h2>
           </div>
           
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-4 sm:p-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <div className="bg-blue-50 p-5 rounded-lg border border-blue-200">
                 <h3 className="font-semibold text-blue-800 mb-2">Automatic Updates</h3>
                 <p className="text-blue-700 text-sm">Data refreshes automatically every 10 seconds to provide real-time monitoring of your ESP32 device.</p>
