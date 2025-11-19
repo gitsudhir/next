@@ -333,15 +333,15 @@ export default function GyroscopeControl() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Alpha (α) - Compass:</span>
-                        <span className="font-medium">{gyroData.x !== null ? `${gyroData.x}°` : 'N/A'}</span>
+                        <span className="font-medium text-orange-500">{gyroData.x !== null ? `${gyroData.x}°` : 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Beta (β) - Front-to-back:</span>
-                        <span className="font-medium">{gyroData.y !== null ? `${gyroData.y}°` : 'N/A'}</span>
+                        <span className="font-medium text-orange-500">{gyroData.y !== null ? `${gyroData.y}°` : 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Gamma (γ) - Left-to-right:</span>
-                        <span className="font-medium">{gyroData.z !== null ? `${gyroData.z}°` : 'N/A'}</span>
+                        <span className="font-medium text-orange-500">{gyroData.z !== null ? `${gyroData.z}°` : 'N/A'}</span>
                       </div>
                     </div>
                   </div>
@@ -356,15 +356,15 @@ export default function GyroscopeControl() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-600">X-axis (Left/Right):</span>
-                        <span className="font-medium">{accelData.x !== null ? `${accelData.x} m/s²` : 'N/A'}</span>
+                        <span className="font-medium text-orange-500">{accelData.x !== null ? `${accelData.x} m/s²` : 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Y-axis (Front/Back):</span>
-                        <span className="font-medium">{accelData.y !== null ? `${accelData.y} m/s²` : 'N/A'}</span>
+                        <span className="font-medium text-orange-500">{accelData.y !== null ? `${accelData.y} m/s²` : 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Z-axis (Up/Down):</span>
-                        <span className="font-medium">{accelData.z !== null ? `${accelData.z} m/s²` : 'N/A'}</span>
+                        <span className="font-medium text-orange-500">{accelData.z !== null ? `${accelData.z} m/s²` : 'N/A'}</span>
                       </div>
                     </div>
                   </div>
