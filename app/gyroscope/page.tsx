@@ -110,6 +110,13 @@ export default function GyroscopeControl() {
           y: event.beta !== null ? parseFloat(event.beta.toFixed(2)) : null,
           z: event.gamma !== null ? parseFloat(event.gamma.toFixed(2)) : null
         });
+        
+        // Log when data is updated
+        console.log('Gyro data updated:', {
+          x: event.alpha !== null ? parseFloat(event.alpha.toFixed(2)) : null,
+          y: event.beta !== null ? parseFloat(event.beta.toFixed(2)) : null,
+          z: event.gamma !== null ? parseFloat(event.gamma.toFixed(2)) : null
+        });
       };
 
       // Handler for DeviceMotion (accelerometer)
@@ -178,6 +185,9 @@ export default function GyroscopeControl() {
     try {
       setSending(true);
       
+      // Log current gyro data for debugging
+      console.log('Current gyro data:', gyroData);
+      
       // Map gyroscope data to matrix coordinates (0-7)
       let matrixX = 3; // Default center
       let matrixY = 3; // Default center
@@ -214,7 +224,7 @@ export default function GyroscopeControl() {
       }
 
       setLastSent(formatTime(new Date()));
-      console.log('Dot pattern sent successfully');
+      console.log('Dot pattern sent successfully at:', formatTime(new Date()));
     } catch (err) {
       console.error('Failed to send dot pattern:', err);
       setError('Failed to send dot pattern: ' + (err as Error).message);
@@ -231,7 +241,10 @@ export default function GyroscopeControl() {
       intervalRef.current = null;
     } else {
       console.log('Starting continuous sending');
-      intervalRef.current = setInterval(sendDataToESP32, 200); // Send every 200ms for smoother movement
+      intervalRef.current = setInterval(() => {
+        console.log('Continuous send interval triggered');
+        sendDataToESP32();
+      }, 200); // Send every 200ms for smoother movement
     }
   };
 
