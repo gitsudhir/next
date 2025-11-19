@@ -410,12 +410,24 @@ export default function GyroscopeControl() {
                     <div className="inline-grid grid-cols-8 gap-1 bg-gray-800 p-2 rounded-lg">
                       {Array.from({ length: 8 }).map((_, rowIndex) => (
                         Array.from({ length: 8 }).map((_, colIndex) => {
-                          // Calculate if this cell should be active based on current gyro data
-                          const isActive = isListening && 
-                                          gyroData.x !== null && 
-                                          gyroData.y !== null &&
-                                          rowIndex === Math.round(((gyroData.y + 180) / 360) * 7) &&
-                                          colIndex === Math.round(((gyroData.x + 180) / 360) * 7);
+                          // Calculate matrix coordinates from gyro data
+                          let matrixX = 3; // Default center
+                          let matrixY = 3; // Default center
+                          
+                          if (gyroData.x !== null) {
+                            // Map X from -180 to 180 degrees to 0-7
+                            matrixX = Math.round(((gyroData.x + 180) / 360) * 7);
+                            matrixX = Math.max(0, Math.min(7, matrixX)); // Constrain to 0-7
+                          }
+                          
+                          if (gyroData.y !== null) {
+                            // Map Y from -180 to 180 degrees to 0-7
+                            matrixY = Math.round(((gyroData.y + 180) / 360) * 7);
+                            matrixY = Math.max(0, Math.min(7, matrixY)); // Constrain to 0-7
+                          }
+                          
+                          // Check if this cell should be active
+                          const isActive = isListening && (rowIndex === matrixY) && (colIndex === matrixX);
                           
                           return (
                             <div 
