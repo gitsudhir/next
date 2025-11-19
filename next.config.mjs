@@ -11,6 +11,9 @@ const nextConfig = {
   
   // Ensure proper handling of static assets
   poweredByHeader: false,
+  
+  // Configure output for standalone deployment if needed
+  output: 'standalone',
 };
 
 export default nextConfig;
