@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,11 +14,13 @@
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.4",
     "@vercel/postgres": "^0.9.0",
+    "gyronorm": "^2.0.6",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/gyronorm": "^2.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
