@@ -32,6 +32,18 @@ vercel dev
 
 Deploy by connecting a Git repository to Vercel, or using the `vercel` command directly.
 
+## Routing Priority: Next.js API Routes vs Rust Functions
+
+When both Next.js API routes and Rust serverless functions exist at the same URL path, **Next.js API routes take precedence** and the Rust functions are ignored.
+
+For example, if you have:
+- A Next.js API route at `pages/api/users.js`
+- A Rust function at `api/users.rs`
+
+When a request is made to `/api/users`, the Next.js API route will be called and the Rust function will be ignored.
+
+This is important to understand when designing your API architecture to avoid conflicts between implementations.
+
 ## Cars API (/api/cars)
 
 ### Overview
@@ -225,3 +237,4 @@ curl -X POST http://localhost:3000/api/cars \
 - The target directory is ignored in both `.gitignore` and `.vercelignore`
 - Database connections are handled automatically when deployed to Vercel
 - Query parameters in curl commands must be quoted to prevent shell interpretation issues
+- Next.js API routes take precedence over Rust functions at the same URL path
