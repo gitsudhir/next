@@ -51,3 +51,9 @@ curl -X POST "http://localhost:3000/api/send_sensor_data?ip=192.168.1.23" \
   -H "Content-Type: application/json" \
   -d '{"temperature": 23.5, "humidity": 65.2}'
 ```
+
+## Deployment Notes
+
+- The Rust functions will be automatically compiled and deployed by Vercel
+- Make sure to use the correct runtime version in `vercel.json`
+- The target directory is ignored in both `.gitignore` and `.vercelignore`
