@@ -74,6 +74,9 @@ The cars API provides a complete RESTful interface for managing car records in a
 - Comprehensive error handling
 - Input validation
 
+### Scalability
+For information about how the cars API scales and how to optimize it for high traffic, see [CARS_API_SCALING.md](CARS_API_SCALING.md).
+
 ### Endpoints
 
 #### GET /api/cars
