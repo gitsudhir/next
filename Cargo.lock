@@ -719,6 +719,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "json2toon_rs"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a229afbadea9f7381acc717e9977c83f5f6b511a69ccfca772f6cb74d17ae0f9"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "lambda_http"
 version = "0.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -902,6 +912,7 @@ dependencies = [
 name = "next-rust-api"
 version = "0.1.0"
 dependencies = [
+ "json2toon_rs",
  "native-tls",
  "openssl",
  "postgres-native-tls",
@@ -1404,6 +1415,7 @@ version = "1.0.145"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "402a6f66d8c709116cf22f558eab210f5a50187f702eb4d7e5ef38d9a7f1c79c"
 dependencies = [
+ "indexmap",
  "itoa",
  "memchr",
  "ryu",

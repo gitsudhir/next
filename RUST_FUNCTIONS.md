@@ -10,6 +10,7 @@ This project includes Rust-based serverless functions that can be deployed to Ve
 4. `/api/send_sensor_data.rs` - A function to send sensor data to an ESP32 device
 5. `/api/cars.rs` - A REST API for managing cars in a PostgreSQL database (TCP-based)
 6. `/api/cars_neon_http.rs` - A REST API for managing cars using Neon's HTTP API
+7. `/api/toon/cars.rs` - A REST API for managing cars using TOON format for reduced token usage
 
 ## Setup
 
@@ -54,6 +55,15 @@ This makes Rust serverless functions ideal for:
 - APIs that need to handle high request volumes
 - Performance-critical endpoints
 
+## TOON Format for Reduced Token Usage
+
+The TOON API (`/api/toon/cars.rs`) uses the TOON format instead of JSON to reduce token usage by 30-60%. TOON is a compact data format that keeps structure like JSON but removes repeated keys, braces, quotes, and unnecessary punctuation.
+
+See [TOON_FORMAT.md](TOON_FORMAT.md) for detailed information about:
+- How TOON reduces token usage
+- TOON syntax and examples
+- Benefits for LLM applications
+
 ## HTTP-Based Database Access
 
 For better scalability in serverless environments, we provide an HTTP-based version of the cars API (`cars_neon_http.rs`) that uses HTTP requests instead of TCP connections to communicate with the Neon database.
@@ -93,6 +103,9 @@ For information about how the cars API scales and how to optimize it for high tr
 
 ### HTTP-Based Alternative
 For better serverless scalability without TCP connection issues, see `cars_neon_http.rs` which uses Neon's HTTP API.
+
+### TOON Format Alternative
+For reduced token usage in LLM applications, see `api/toon/cars.rs` which uses TOON format.
 
 ### Endpoints
 
@@ -208,6 +221,89 @@ This is an HTTP-based version of the cars API that uses Neon's HTTP API instead 
 - Higher concurrent request handling
 - No database connection limits
 
+## Cars API with TOON Format (/api/toon/cars)
+
+### Overview
+This is a TOON-based version of the cars API that uses the TOON format instead of JSON to reduce token usage by 30-60%. This is particularly useful for LLM applications where token usage directly impacts costs.
+
+### Features
+- Same functionality as the JSON-based version
+- Uses TOON format for requests and responses
+- Reduced token usage for LLM applications
+- Plain text content type
+
+### Benefits
+- 30-60% reduction in token usage
+- Lower costs for LLM applications
+- Faster processing for large datasets
+- Better performance in token-limited environments
+
+### TOON Format Examples
+
+**JSON:**
+```json
+{
+  "cars": [
+    {
+      "brand": "Toyota",
+      "model": "Camry",
+      "year": 2015
+    }
+  ],
+  "filters": {
+    "brand": "Toyota",
+    "model": null,
+    "year": null
+  }
+}
+```
+
+**TOON:**
+```
+cars[1]{brand,model,year}:
+  Toyota,Camry,2015
+filters{brand,model,year}:
+  Toyota,,
+```
+
+### Endpoints
+
+#### GET /api/toon/cars
+Returns all cars from the database with optional filtering in TOON format.
+
+**Query Parameters:**
+- `brand` - Filter by car brand (e.g., Toyota, Ford)
+- `model` - Filter by car model (e.g., Camry, Mustang)
+- `year` - Filter by manufacturing year (e.g., 2020, 2023)
+
+**Examples:**
+```bash
+# Get all cars
+curl -H "Accept: text/plain" https://your-domain.com/api/toon/cars
+
+# Filter by brand
+curl -H "Accept: text/plain" "https://your-domain.com/api/toon/cars?brand=Toyota"
+```
+
+#### POST /api/toon/cars
+Creates a new car record in the database using TOON format.
+
+**Request Body:**
+```
+brand: Tesla
+model: Model 3
+year: 2023
+```
+
+**Example:**
+```bash
+curl -X POST https://your-domain.com/api/toon/cars \
+  -H "Content-Type: text/plain" \
+  -d 'brand: Tesla
+model: Model 3
+year: 2023'
+```
+
 ## Other API Endpoints
 
 ### GET /api/hello
@@ -286,6 +382,14 @@ curl "http://localhost:3000/api/cars"
 curl -X POST http://localhost:3000/api/cars \
   -H "Content-Type: application/json" \
   -d '{"brand": "Ford", "model": "Mustang", "year": 2023}'
+
+# Test the TOON cars API
+curl -H "Accept: text/plain" http://localhost:3000/api/toon/cars
+curl -X POST http://localhost:3000/api/toon/cars \
+  -H "Content-Type: text/plain" \
+  -d 'brand: Tesla
+model: Model 3
+year: 2023'
 ```
 
 ## Deployment Notes
@@ -297,3 +401,4 @@ curl -X POST http://localhost:3000/api/cars \
 - Query parameters in curl commands must be quoted to prevent shell interpretation issues
 - Next.js API routes take precedence over Rust functions at the same URL path
 - For HTTP-based database access, set the `NEON_API_KEY` environment variable
+- For TOON format APIs, use `Content-Type: text/plain` and `Accept: text/plain` headers

@@ -18,6 +18,8 @@ tokio-postgres = { version = "0.7", features = ["with-serde_json-1"] }
 postgres-native-tls = "0.5"
 native-tls = "0.2"
 openssl = { version = "0.10", features = ["vendored"] }
+# TOON format for reduced token usage
+json2toon_rs = "0.2"
 
 [[bin]]
 name = "hello"
@@ -42,6 +44,10 @@ path = "api/cars.rs"
 [[bin]]
 name = "cars_neon_http"
 path = "api/cars_neon_http.rs"
+
+[[bin]]
+name = "toon_cars"
+path = "api/toon/cars.rs"
 
 [[bin]]
 name = "test_db_connection"
