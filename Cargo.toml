@@ -40,5 +40,9 @@ name = "cars"
 path = "api/cars.rs"
 
 [[bin]]
+name = "cars_neon_http"
+path = "api/cars_neon_http.rs"
+
+[[bin]]
 name = "test_db_connection"
 path = "test_db_connection.rs"
