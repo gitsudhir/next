@@ -8,7 +8,8 @@ This project includes Rust-based serverless functions that can be deployed to Ve
 2. `/api/esp32_rust.rs` - An ESP32 data handler function
 3. `/api/esp32_sensor.rs` - An enhanced ESP32 sensor data handler with validation
 4. `/api/send_sensor_data.rs` - A function to send sensor data to an ESP32 device
-5. `/api/cars.rs` - A REST API for managing cars in a PostgreSQL database
+5. `/api/cars.rs` - A REST API for managing cars in a PostgreSQL database (TCP-based)
+6. `/api/cars_http.rs` - A REST API for managing cars using HTTP-based database access
 
 ## Setup
 
@@ -21,6 +22,10 @@ The cars API connects to a PostgreSQL database using environment variables:
 - `POSTGRES_URL` or `DATABASE_URL` - Database connection string
 
 Vercel automatically sets these when you add a PostgreSQL database to your project.
+
+For HTTP-based database access, you may also need:
+- `NEON_HTTP_API_URL` - Neon HTTP API endpoint
+- `NEON_API_KEY` - Neon API key for authentication
 
 ## Local Development
 
@@ -50,6 +55,16 @@ This makes Rust serverless functions ideal for:
 - APIs that need to handle high request volumes
 - Performance-critical endpoints
 
+## HTTP-Based Database Access
+
+For better scalability in serverless environments, we provide an HTTP-based version of the cars API (`cars_http.rs`) that uses HTTP requests instead of TCP connections to communicate with the database.
+
+See [HTTP_DATABASE_ACCESS.md](HTTP_DATABASE_ACCESS.md) for detailed information about:
+- Why HTTP-based database access is better for serverless
+- How to implement HTTP-based database drivers
+- Migration guide from TCP to HTTP
+- Performance considerations
+
 ## Routing Priority: Next.js API Routes vs Rust Functions
 
 When both Next.js API routes and Rust serverless functions exist at the same URL path, **Next.js API routes take precedence** and the Rust functions are ignored.
@@ -76,6 +91,9 @@ The cars API provides a complete RESTful interface for managing car records in a
 
 ### Scalability
 For information about how the cars API scales and how to optimize it for high traffic, see [CARS_API_SCALING.md](CARS_API_SCALING.md).
+
+### HTTP-Based Alternative
+For better serverless scalability, see [HTTP_DATABASE_ACCESS.md](HTTP_DATABASE_ACCESS.md) for an HTTP-based implementation that eliminates TCP connection issues.
 
 ### Endpoints
 
