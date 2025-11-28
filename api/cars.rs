@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use vercel_runtime::{run, Body, Error, Request, Response, StatusCode};
-use tokio_postgres::{Client, NoTls};
+use postgres_native_tls::MakeTlsConnector;
+use native_tls::TlsConnector;
 use std::env;
 
 // Define the Car struct to match the database table
@@ -73,16 +74,20 @@ pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
         )?)
 }
 
-async fn get_database_client() -> Result<Client, Error> {
+async fn get_database_client() -> Result<tokio_postgres::Client, Error> {
     // Get database connection string from environment variables
     // Vercel automatically sets these when you add a PostgreSQL database
     let database_url = env::var("POSTGRES_URL")
         .or_else(|_| env::var("DATABASE_URL"))
         .map_err(|_| "Database URL not found in environment variables")?;
     
-    // For Vercel deployments, we can use a simpler approach
-    // Let's try to connect with NoTls first, and if that fails, we'll handle it gracefully
-    match tokio_postgres::connect(&database_url, NoTls).await {
+    // Create TLS connector
+    let connector = TlsConnector::new()
+        .map_err(|e| format!("Failed to create TLS connector: {}", e))?;
+    let connector = MakeTlsConnector::new(connector);
+    
+    // Connect to the database
+    match tokio_postgres::connect(&database_url, connector).await {
         Ok((client, connection)) => {
             // Spawn the connection to run in the background
             tokio::spawn(async move {
