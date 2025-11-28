@@ -69,12 +69,9 @@ fn is_valid_ip(ip: &str) -> bool {
     // Check that each octet is between 0 and 255
     let octets: Vec<&str> = ip.split('.').collect();
     for octet in octets {
-        if let Ok(num) = octet.parse::<u8>() {
+        if let Ok(_num) = octet.parse::<u8>() {
             // This check is actually redundant since u8 is always 0-255
             // but we keep it for clarity
-            if num > 255 {
-                return false;
-            }
         } else {
             return false;
         }
