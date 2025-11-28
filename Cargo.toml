@@ -11,6 +11,8 @@ vercel_runtime = { version = "1" }
 url = "2"
 regex = "1"
 rand = "0.8"
+tokio-postgres = "0.7"
+openssl = { version = "0.10", features = ["vendored"] }
 
 [[bin]]
 name = "hello"

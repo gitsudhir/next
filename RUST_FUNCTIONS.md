@@ -15,6 +15,13 @@ This project includes Rust-based serverless functions that can be deployed to Ve
 1. Install Rust toolchain using [rustup](https://rustup.rs/)
 2. Install [Vercel CLI](https://vercel.com/docs/cli#installing-vercel-cli)
 
+## Database Configuration
+
+The cars API connects to a PostgreSQL database using environment variables:
+- `POSTGRES_URL` or `DATABASE_URL` - Database connection string
+
+Vercel automatically sets these when you add a PostgreSQL database to your project.
+
 ## Local Development
 
 ```bash
@@ -70,4 +77,4 @@ curl -X POST http://localhost:3000/api/cars \
 - The Rust functions will be automatically compiled and deployed by Vercel
 - Make sure to use the correct runtime version in `vercel.json`
 - The target directory is ignored in both `.gitignore` and `.vercelignore`
-- For database operations, you'll need to implement actual database connections
+- Database connections are handled automatically when deployed to Vercel
