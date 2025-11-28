@@ -72,7 +72,7 @@ pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
     
     Ok(Response::builder()
         .status(StatusCode::NOT_FOUND)
-        .header("Content-Type", "text/plain") // TOON uses plain text
+        .header("Content-Type", "application/toon") // Custom MIME type for TOON
         .body(
             toon_response
             .into(),
@@ -209,7 +209,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
                     
                     Ok(Response::builder()
                         .status(StatusCode::OK)
-                        .header("Content-Type", "text/plain") // TOON uses plain text
+                        .header("Content-Type", "application/toon") // Custom MIME type for TOON
                         .body(
                             toon_response
                             .into(),
@@ -223,7 +223,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
                     
                     Ok(Response::builder()
                         .status(StatusCode::INTERNAL_SERVER_ERROR)
-                        .header("Content-Type", "text/plain")
+                        .header("Content-Type", "application/toon")
                         .body(
                             toon_response
                             .into(),
@@ -239,7 +239,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
             
             Ok(Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
-                .header("Content-Type", "text/plain")
+                .header("Content-Type", "application/toon")
                 .body(
                     toon_response
                     .into(),
@@ -282,7 +282,7 @@ async fn create_car(req: Request) -> Result<Response<Body>, Error> {
                     
                     Ok(Response::builder()
                         .status(StatusCode::CREATED)
-                        .header("Content-Type", "text/plain")
+                        .header("Content-Type", "application/toon")
                         .body(
                             toon_response
                             .into(),
@@ -296,7 +296,7 @@ async fn create_car(req: Request) -> Result<Response<Body>, Error> {
                     
                     Ok(Response::builder()
                         .status(StatusCode::INTERNAL_SERVER_ERROR)
-                        .header("Content-Type", "text/plain")
+                        .header("Content-Type", "application/toon")
                         .body(
                             toon_response
                             .into(),
@@ -312,7 +312,7 @@ async fn create_car(req: Request) -> Result<Response<Body>, Error> {
             
             Ok(Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
-                .header("Content-Type", "text/plain")
+                .header("Content-Type", "application/toon")
                 .body(
                     toon_response
                     .into(),

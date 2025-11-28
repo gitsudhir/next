@@ -192,7 +192,7 @@ pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
     // Send TOON format response
     Ok(Response::builder()
         .status(StatusCode::OK)
-        .header("Content-Type", "text/plain") // TOON uses plain text
+        .header("Content-Type", "application/toon") // Custom MIME type for TOON
         .body(toon_response.into())?)
     
     // Clients can easily decode:
@@ -202,13 +202,13 @@ pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
 
 ### HTTP Headers
 When using TOON format, use these standard headers:
-- **Request**: `Content-Type: text/plain`
-- **Response**: `Content-Type: text/plain`
+- **Request**: `Content-Type: application/toon`
+- **Response**: `Content-Type: application/toon`
 
 ### Example Request
 ```bash
 curl -X POST https://api.example.com/toon/cars \
-  -H "Content-Type: text/plain" \
+  -H "Content-Type: application/toon" \
   -d 'brand: Toyota
 model: Camry
 year: 2015'
@@ -225,12 +225,7 @@ filters{brand,model,year}:
 
 ## Working with Different Content Types
 
-While `text/plain` is the most common content type for TOON, you can also use:
-
-### Custom MIME Type
-```rust
-.header("Content-Type", "application/toon")
-```
+While `application/toon` is the recommended content type for TOON, you can also support content negotiation:
 
 ### Content Negotiation
 ```rust
@@ -239,7 +234,7 @@ let accept_header = req.headers().get("accept").and_then(|h| h.to_str().ok());
 let content_type = if accept_header == Some("application/toon") {
     "application/toon"
 } else {
-    "text/plain"
+    "text/plain" // Fallback
 };
 ```
 
@@ -263,7 +258,7 @@ Clearly document your TOON API endpoints with examples:
 ```bash
 # Get users
 GET /api/toon/users
-Accept: text/plain
+Accept: application/toon
 
 # Response:
 users[2]{id,name,email}:
@@ -283,7 +278,7 @@ users[2]{id,name,email}:
 // Support both JSON and TOON based on Content-Type header
 match content_type {
     "application/json" => parse_json(body),
-    "text/plain" => parse_toon(body),
+    "application/toon" => parse_toon(body),
     _ => return error("Unsupported content type"),
 }
 ```

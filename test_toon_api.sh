@@ -5,16 +5,16 @@ echo "===================="
 
 # Test getting all cars in TOON format
 echo "1. Getting all cars (TOON format):"
-curl -s -H "Accept: text/plain" https://www.sudhirkumar.in/api/toon/cars
+curl -s -H "Accept: application/toon" https://www.sudhirkumar.in/api/toon/cars
 echo ""
 
 echo "2. Filtering by brand (TOON format):"
-curl -s -H "Accept: text/plain" "https://www.sudhirkumar.in/api/toon/cars?brand=Toyota"
+curl -s -H "Accept: application/toon" "https://www.sudhirkumar.in/api/toon/cars?brand=Toyota"
 echo ""
 
 echo "3. Creating a new car with TOON format:"
 curl -s -X POST https://www.sudhirkumar.in/api/toon/cars \
-  -H "Content-Type: text/plain" \
+  -H "Content-Type: application/toon" \
   -d 'brand: TestBrand
 model: TestModel
 year: 2025'
