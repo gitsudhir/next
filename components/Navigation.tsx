@@ -13,6 +13,7 @@ export default function Navigation() {
     { name: 'ESP32 Control', href: '/esp32' },
     { name: 'Gyroscope', href: '/gyroscope' },
     { name: 'Matrix Control', href: '/matrix' },
+    { name: 'TOON vs JSON', href: '/toon-vs-json' },
   ];
 
   return (
