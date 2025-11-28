@@ -8,6 +8,7 @@ A Next.js application for controlling ESP32 devices through web-based sensors.
 - **Gyroscope Control**: Send device motion data from mobile devices to ESP32
 - **Responsive Design**: Works on both desktop and mobile devices
 - **Secure Deployment**: Ready for Vercel deployment with HTTPS support
+- **Rust Serverless Functions**: High-performance backend APIs written in Rust
 
 ## Deployment to Vercel
 
@@ -24,6 +25,7 @@ A Next.js application for controlling ESP32 devices through web-based sensors.
 - `/gyroscope/proven-approach` - Proven DeviceOrientation/Motion API approach
 - `/gyroscope/gyronorm-complete` - GyroNorm.js library approach
 - `/gyroscope/diagnostics` - Sensor diagnostics tool
+- `/api/*` - Rust serverless functions (see [RUST_FUNCTIONS.md](RUST_FUNCTIONS.md))
 
 ## Requirements
 
@@ -39,6 +41,15 @@ npm run dev
 ```
 
 The application will be available at `http://localhost:3000`
+
+## Rust Serverless Functions
+
+This project includes high-performance Rust-based serverless functions for Vercel. See [RUST_FUNCTIONS.md](RUST_FUNCTIONS.md) for detailed documentation on:
+
+- Cars API with query parameter filtering
+- ESP32 sensor data handlers
+- Database connectivity with TLS encryption
+- Local development and testing
 
 ## Deployment Commands
 
