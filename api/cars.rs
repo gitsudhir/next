@@ -4,6 +4,7 @@ use vercel_runtime::{run, Body, Error, Request, Response, StatusCode};
 use postgres_native_tls::MakeTlsConnector;
 use native_tls::TlsConnector;
 use std::env;
+use url::Url;
 
 // Define the Car struct to match the database table
 #[derive(Serialize, Deserialize, Debug)]
@@ -28,29 +29,15 @@ async fn main() -> Result<(), Error> {
 pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
     let method = req.method().as_str().to_string();
     let path = req.uri().path().to_string();
+    let query = req.uri().query().unwrap_or("");
     
     // Handle different endpoints
     if method == "GET" && path == "/api/cars" {
-        return get_all_cars().await;
-    }
-    
-    if method == "GET" && path.starts_with("/api/cars/") {
-        let id = path.trim_start_matches("/api/cars/");
-        return get_car_by_id(id).await;
+        return get_cars_with_filters(query).await;
     }
     
     if method == "POST" && path == "/api/cars" {
         return create_car(req).await;
-    }
-    
-    if method == "PUT" && path.starts_with("/api/cars/") {
-        let id = path.trim_start_matches("/api/cars/");
-        return update_car(req, id).await;
-    }
-    
-    if method == "DELETE" && path.starts_with("/api/cars/") {
-        let id = path.trim_start_matches("/api/cars/");
-        return delete_car(id).await;
     }
     
     // Default response for unmatched routes
@@ -96,10 +83,62 @@ async fn get_database_client() -> Result<tokio_postgres::Client, Error> {
     }
 }
 
-async fn get_all_cars() -> Result<Response<Body>, Error> {
+async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
+    // Parse query parameters
+    let mut brand_filter: Option<String> = None;
+    let mut model_filter: Option<String> = None;
+    let mut year_filter: Option<i32> = None;
+    
+    // Parse query string manually
+    for pair in query.split('&') {
+        let parts: Vec<&str> = pair.split('=').collect();
+        if parts.len() == 2 {
+            let key = parts[0];
+            let value = parts[1];
+            
+            match key {
+                "brand" => brand_filter = Some(urlencoding::decode(value).unwrap_or_default().to_string()),
+                "model" => model_filter = Some(urlencoding::decode(value).unwrap_or_default().to_string()),
+                "year" => year_filter = value.parse::<i32>().ok(),
+                _ => {} // Ignore unknown parameters
+            }
+        }
+    }
+    
+    // Build SQL query dynamically based on filters
+    let mut sql = "SELECT * FROM CARS".to_string();
+    let mut params: Vec<Box<dyn postgres_types::ToSql + Sync>> = vec![];
+    let mut param_index = 1;
+    
+    let mut where_clauses = vec![];
+    
+    if let Some(ref brand) = brand_filter {
+        where_clauses.push(format!("brand = ${}", param_index));
+        params.push(Box::new(brand.clone()));
+        param_index += 1;
+    }
+    
+    if let Some(ref model) = model_filter {
+        where_clauses.push(format!("model = ${}", param_index));
+        params.push(Box::new(model.clone()));
+        param_index += 1;
+    }
+    
+    if let Some(year) = year_filter {
+        where_clauses.push(format!("year = ${}", param_index));
+        params.push(Box::new(year));
+    }
+    
+    if !where_clauses.is_empty() {
+        sql.push_str(&format!(" WHERE {}", where_clauses.join(" AND ")));
+    }
+    
     match get_database_client().await {
         Ok(client) => {
-            match client.query("SELECT * FROM CARS", &[]).await {
+            // Execute query with parameters
+            let params_refs: Vec<&(dyn postgres_types::ToSql + Sync)> = params.iter().map(|p| p.as_ref()).collect();
+            
+            match client.query(&sql, &params_refs).await {
                 Ok(rows) => {
                     // Convert rows to a simple JSON array
                     let cars: Vec<serde_json::Value> = rows
@@ -128,7 +167,12 @@ async fn get_all_cars() -> Result<Response<Body>, Error> {
                         .header("Content-Type", "application/json")
                         .body(
                             json!({
-                                "cars": cars
+                                "cars": cars,
+                                "filters": {
+                                    "brand": brand_filter,
+                                    "model": model_filter,
+                                    "year": year_filter
+                                }
                             })
                             .to_string()
                             .into(),
@@ -155,92 +199,6 @@ async fn get_all_cars() -> Result<Response<Body>, Error> {
                 .body(
                     json!({
                         "error": format!("Database connection failed: {}", e)
-                    })
-                    .to_string()
-                    .into(),
-                )?)
-        }
-    }
-}
-
-async fn get_car_by_id(id: &str) -> Result<Response<Body>, Error> {
-    match id.parse::<i32>() {
-        Ok(car_id) => {
-            match get_database_client().await {
-                Ok(client) => {
-                    match client.query_opt("SELECT * FROM CARS WHERE id = $1", &[&car_id]).await {
-                        Ok(Some(row)) => {
-                            // Convert row to JSON object
-                            let mut car_obj = serde_json::Map::new();
-                            for (i, column) in row.columns().iter().enumerate() {
-                                let column_name = column.name();
-                                if let Ok(value) = row.try_get::<_, String>(i) {
-                                    car_obj.insert(column_name.to_string(), serde_json::Value::String(value));
-                                } else if let Ok(value) = row.try_get::<_, i32>(i) {
-                                    car_obj.insert(column_name.to_string(), serde_json::Value::Number(serde_json::Number::from(value)));
-                                } else {
-                                    car_obj.insert(column_name.to_string(), serde_json::Value::String(format!("{:?}", row.get::<_, serde_json::Value>(i))));
-                                }
-                            }
-                            
-                            Ok(Response::builder()
-                                .status(StatusCode::OK)
-                                .header("Content-Type", "application/json")
-                                .body(
-                                    json!({
-                                        "car": car_obj
-                                    })
-                                    .to_string()
-                                    .into(),
-                                )?)
-                        }
-                        Ok(None) => {
-                            Ok(Response::builder()
-                                .status(StatusCode::NOT_FOUND)
-                                .header("Content-Type", "application/json")
-                                .body(
-                                    json!({
-                                        "error": "Car not found"
-                                    })
-                                    .to_string()
-                                    .into(),
-                                )?)
-                        }
-                        Err(e) => {
-                            Ok(Response::builder()
-                                .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                .header("Content-Type", "application/json")
-                                .body(
-                                    json!({
-                                        "error": format!("Failed to fetch car: {}", e)
-                                    })
-                                    .to_string()
-                                    .into(),
-                                )?)
-                        }
-                    }
-                }
-                Err(e) => {
-                    Ok(Response::builder()
-                        .status(StatusCode::INTERNAL_SERVER_ERROR)
-                        .header("Content-Type", "application/json")
-                        .body(
-                            json!({
-                                "error": format!("Database connection failed: {}", e)
-                            })
-                            .to_string()
-                            .into(),
-                        )?)
-                }
-            }
-        }
-        Err(_) => {
-            Ok(Response::builder()
-                .status(StatusCode::BAD_REQUEST)
-                .header("Content-Type", "application/json")
-                .body(
-                    json!({
-                        "error": "Invalid car ID"
                     })
                     .to_string()
                     .into(),
