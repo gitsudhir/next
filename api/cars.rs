@@ -5,6 +5,7 @@ use postgres_native_tls::MakeTlsConnector;
 use native_tls::TlsConnector;
 use std::env;
 use url::Url;
+use tokio_postgres::types::ToSql;
 
 // Define the Car struct to match the database table
 #[derive(Serialize, Deserialize, Debug)]
@@ -107,26 +108,27 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
     
     // Build SQL query dynamically based on filters
     let mut sql = "SELECT * FROM CARS".to_string();
-    let mut params: Vec<Box<dyn postgres_types::ToSql + Sync>> = vec![];
+    let mut params: Vec<String> = vec![];
+    let mut int_params: Vec<i32> = vec![];
     let mut param_index = 1;
     
     let mut where_clauses = vec![];
     
     if let Some(ref brand) = brand_filter {
         where_clauses.push(format!("brand = ${}", param_index));
-        params.push(Box::new(brand.clone()));
+        params.push(brand.clone());
         param_index += 1;
     }
     
     if let Some(ref model) = model_filter {
         where_clauses.push(format!("model = ${}", param_index));
-        params.push(Box::new(model.clone()));
+        params.push(model.clone());
         param_index += 1;
     }
     
     if let Some(year) = year_filter {
         where_clauses.push(format!("year = ${}", param_index));
-        params.push(Box::new(year));
+        int_params.push(year);
     }
     
     if !where_clauses.is_empty() {
@@ -135,10 +137,26 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
     
     match get_database_client().await {
         Ok(client) => {
-            // Execute query with parameters
-            let params_refs: Vec<&(dyn postgres_types::ToSql + Sync)> = params.iter().map(|p| p.as_ref()).collect();
+            let rows = if !params.is_empty() || !int_params.is_empty() {
+                // We have parameters, execute with them
+                if params.len() == 1 && int_params.is_empty() {
+                    client.query(&sql, &[&params[0]]).await
+                } else if params.is_empty() && int_params.len() == 1 {
+                    client.query(&sql, &[&int_params[0]]).await
+                } else if params.len() == 1 && int_params.len() == 1 {
+                    client.query(&sql, &[&params[0], &int_params[0]]).await
+                } else if params.len() == 2 && int_params.is_empty() {
+                    client.query(&sql, &[&params[0], &params[1]]).await
+                } else {
+                    // Fallback to no parameters for now
+                    client.query(&sql, &[]).await
+                }
+            } else {
+                // No parameters
+                client.query(&sql, &[]).await
+            };
             
-            match client.query(&sql, &params_refs).await {
+            match rows {
                 Ok(rows) => {
                     // Convert rows to a simple JSON array
                     let cars: Vec<serde_json::Value> = rows
