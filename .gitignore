@@ -16,6 +16,10 @@
 # production
 /build
 
+# rust build artifacts
+/target/
+**/target/
+
 # misc
 .DS_Store
 *.pem
