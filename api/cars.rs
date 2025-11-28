@@ -20,14 +20,6 @@ struct CarInput {
     year: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct CarWithId {
-    id: i32,
-    brand: String,
-    model: String,
-    year: i32,
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     run(handler).await
@@ -107,15 +99,27 @@ async fn get_database_client() -> Result<tokio_postgres::Client, Error> {
 async fn get_all_cars() -> Result<Response<Body>, Error> {
     match get_database_client().await {
         Ok(client) => {
-            match client.query("SELECT id, brand, model, year FROM cars", &[]).await {
+            match client.query("SELECT * FROM CARS", &[]).await {
                 Ok(rows) => {
-                    let cars: Vec<CarWithId> = rows
+                    // Convert rows to a simple JSON array
+                    let cars: Vec<serde_json::Value> = rows
                         .into_iter()
-                        .map(|row| CarWithId {
-                            id: row.get(0),
-                            brand: row.get(1),
-                            model: row.get(2),
-                            year: row.get(3),
+                        .map(|row| {
+                            // Create a generic object for each row
+                            let mut obj = serde_json::Map::new();
+                            for (i, column) in row.columns().iter().enumerate() {
+                                let column_name = column.name();
+                                // Try to get value as string first, then as integer
+                                if let Ok(value) = row.try_get::<_, String>(i) {
+                                    obj.insert(column_name.to_string(), serde_json::Value::String(value));
+                                } else if let Ok(value) = row.try_get::<_, i32>(i) {
+                                    obj.insert(column_name.to_string(), serde_json::Value::Number(serde_json::Number::from(value)));
+                                } else {
+                                    // Fallback to string representation
+                                    obj.insert(column_name.to_string(), serde_json::Value::String(format!("{:?}", row.get::<_, serde_json::Value>(i))));
+                                }
+                            }
+                            serde_json::Value::Object(obj)
                         })
                         .collect();
                     
@@ -164,21 +168,27 @@ async fn get_car_by_id(id: &str) -> Result<Response<Body>, Error> {
         Ok(car_id) => {
             match get_database_client().await {
                 Ok(client) => {
-                    match client.query_opt("SELECT id, brand, model, year FROM cars WHERE id = $1", &[&car_id]).await {
+                    match client.query_opt("SELECT * FROM CARS WHERE id = $1", &[&car_id]).await {
                         Ok(Some(row)) => {
-                            let car = CarWithId {
-                                id: row.get(0),
-                                brand: row.get(1),
-                                model: row.get(2),
-                                year: row.get(3),
-                            };
+                            // Convert row to JSON object
+                            let mut car_obj = serde_json::Map::new();
+                            for (i, column) in row.columns().iter().enumerate() {
+                                let column_name = column.name();
+                                if let Ok(value) = row.try_get::<_, String>(i) {
+                                    car_obj.insert(column_name.to_string(), serde_json::Value::String(value));
+                                } else if let Ok(value) = row.try_get::<_, i32>(i) {
+                                    car_obj.insert(column_name.to_string(), serde_json::Value::Number(serde_json::Number::from(value)));
+                                } else {
+                                    car_obj.insert(column_name.to_string(), serde_json::Value::String(format!("{:?}", row.get::<_, serde_json::Value>(i))));
+                                }
+                            }
                             
                             Ok(Response::builder()
                                 .status(StatusCode::OK)
                                 .header("Content-Type", "application/json")
                                 .body(
                                     json!({
-                                        "car": car
+                                        "car": car_obj
                                     })
                                     .to_string()
                                     .into(),
@@ -264,7 +274,7 @@ async fn create_car(req: Request) -> Result<Response<Body>, Error> {
     match get_database_client().await {
         Ok(client) => {
             match client.execute(
-                "INSERT INTO cars (brand, model, year) VALUES ($1, $2, $3)",
+                "INSERT INTO CARS (brand, model, year) VALUES ($1, $2, $3)",
                 &[&car_input.brand, &car_input.model, &car_input.year]
             ).await {
                 Ok(_) => {
@@ -342,13 +352,12 @@ async fn update_car(req: Request, id: &str) -> Result<Response<Body>, Error> {
             match get_database_client().await {
                 Ok(client) => {
                     match client.execute(
-                        "UPDATE cars SET brand = $1, model = $2, year = $3 WHERE id = $4",
+                        "UPDATE CARS SET brand = $1, model = $2, year = $3 WHERE id = $4",
                         &[&car_input.brand, &car_input.model, &car_input.year, &car_id]
                     ).await {
                         Ok(rows_affected) => {
                             if rows_affected > 0 {
-                                let updated_car = CarWithId {
-                                    id: car_id,
+                                let updated_car = Car {
                                     brand: car_input.brand,
                                     model: car_input.model,
                                     year: car_input.year,
@@ -426,7 +435,7 @@ async fn delete_car(id: &str) -> Result<Response<Body>, Error> {
         Ok(car_id) => {
             match get_database_client().await {
                 Ok(client) => {
-                    match client.execute("DELETE FROM cars WHERE id = $1", &[&car_id]).await {
+                    match client.execute("DELETE FROM CARS WHERE id = $1", &[&car_id]).await {
                         Ok(rows_affected) => {
                             if rows_affected > 0 {
                                 Ok(Response::builder()
