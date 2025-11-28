@@ -32,6 +32,24 @@ vercel dev
 
 Deploy by connecting a Git repository to Vercel, or using the `vercel` command directly.
 
+## Performance: Rust vs Next.js API Routes
+
+🚀 **Rust API (Serverless Function) is faster than JS API (Next.js API Route)**
+
+Performance comparison:
+- **Much faster** for CPU-intensive work
+- **Slightly faster** for simple APIs
+- **Lower latency** and better throughput
+
+👍 If performance is your priority → Rust is the winner.
+
+This makes Rust serverless functions ideal for:
+- Data processing and transformation
+- Mathematical computations
+- Database-heavy operations
+- APIs that need to handle high request volumes
+- Performance-critical endpoints
+
 ## Routing Priority: Next.js API Routes vs Rust Functions
 
 When both Next.js API routes and Rust serverless functions exist at the same URL path, **Next.js API routes take precedence** and the Rust functions are ignored.
