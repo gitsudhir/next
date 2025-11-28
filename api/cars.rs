@@ -32,6 +32,9 @@ pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
     let path = req.uri().path().to_string();
     let query = req.uri().query().unwrap_or("");
     
+    // Debug: Print the query parameters
+    eprintln!("Received query: '{}'", query);
+    
     // Handle different endpoints
     if method == "GET" && path == "/api/cars" {
         return get_cars_with_filters(query).await;
@@ -85,6 +88,8 @@ async fn get_database_client() -> Result<tokio_postgres::Client, Error> {
 }
 
 async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
+    eprintln!("Processing query: '{}'", query);
+    
     // Parse query parameters
     let mut brand_filter: Option<String> = None;
     let mut model_filter: Option<String> = None;
@@ -97,6 +102,8 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
             let key = parts[0];
             let value = parts[1];
             
+            eprintln!("Parsing pair: key='{}', value='{}'", key, value);
+            
             match key {
                 "brand" => brand_filter = Some(urlencoding::decode(value).unwrap_or_default().to_string()),
                 "model" => model_filter = Some(urlencoding::decode(value).unwrap_or_default().to_string()),
@@ -105,6 +112,8 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
             }
         }
     }
+    
+    eprintln!("Parsed filters: brand={:?}, model={:?}, year={:?}", brand_filter, model_filter, year_filter);
     
     // Build SQL query dynamically based on filters
     let mut sql = "SELECT * FROM CARS".to_string();
@@ -135,24 +144,34 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
         sql.push_str(&format!(" WHERE {}", where_clauses.join(" AND ")));
     }
     
+    eprintln!("SQL query: '{}'", sql);
+    eprintln!("String params: {:?}", params);
+    eprintln!("Int params: {:?}", int_params);
+    
     match get_database_client().await {
         Ok(client) => {
             let rows = if !params.is_empty() || !int_params.is_empty() {
                 // We have parameters, execute with them
                 if params.len() == 1 && int_params.is_empty() {
+                    eprintln!("Executing with 1 string param: {}", params[0]);
                     client.query(&sql, &[&params[0]]).await
                 } else if params.is_empty() && int_params.len() == 1 {
+                    eprintln!("Executing with 1 int param: {}", int_params[0]);
                     client.query(&sql, &[&int_params[0]]).await
                 } else if params.len() == 1 && int_params.len() == 1 {
+                    eprintln!("Executing with 1 string param and 1 int param: {}, {}", params[0], int_params[0]);
                     client.query(&sql, &[&params[0], &int_params[0]]).await
                 } else if params.len() == 2 && int_params.is_empty() {
+                    eprintln!("Executing with 2 string params: {}, {}", params[0], params[1]);
                     client.query(&sql, &[&params[0], &params[1]]).await
                 } else {
                     // Fallback to no parameters for now
+                    eprintln!("Falling back to no parameters");
                     client.query(&sql, &[]).await
                 }
             } else {
                 // No parameters
+                eprintln!("Executing with no parameters");
                 client.query(&sql, &[]).await
             };
             
@@ -197,6 +216,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
                         )?)
                 }
                 Err(e) => {
+                    eprintln!("Database query error: {}", e);
                     Ok(Response::builder()
                         .status(StatusCode::INTERNAL_SERVER_ERROR)
                         .header("Content-Type", "application/json")
@@ -211,6 +231,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
             }
         }
         Err(e) => {
+            eprintln!("Database connection error: {}", e);
             Ok(Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
                 .header("Content-Type", "application/json")
