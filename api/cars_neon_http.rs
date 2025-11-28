@@ -25,6 +25,7 @@ struct CarInput {
 struct NeonQueryResponse {
     rows: Vec<serde_json::Value>,
     fields: Vec<FieldInfo>,
+    affected_rows: Option<u64>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -36,7 +37,6 @@ struct FieldInfo {
 #[derive(Serialize, Deserialize, Debug)]
 struct NeonQueryRequest {
     query: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     params: Option<Vec<serde_json::Value>>,
 }
 
@@ -72,106 +72,67 @@ pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
         )?)
 }
 
-async fn get_neon_client() -> Result<Client, Error> {
+async fn get_neon_http_client() -> Result<Client, Error> {
     Ok(Client::new())
 }
 
-fn get_neon_connection_info() -> Result<(String, String), Error> {
+fn get_neon_config() -> Result<(String, String), Error> {
     // Get database connection string from environment variables
     let database_url = env::var("POSTGRES_URL")
         .or_else(|_| env::var("DATABASE_URL"))
         .map_err(|_| "Database URL not found in environment variables")?;
     
-    // Extract connection info from the URL
+    // Extract the project ID from the Neon URL
+    // Format: postgres://username:password@project-id.region.provider.neon.tech/dbname
     let url = Url::parse(&database_url)
         .map_err(|e| format!("Failed to parse database URL: {}", e))?;
     
-    let host = url.host_str().unwrap_or("localhost").to_string();
-    let username = url.username().to_string();
-    let password = url.password().unwrap_or("").to_string();
-    let database = url.path().trim_start_matches('/').to_string();
+    let host = url.host_str().unwrap_or("localhost");
+    let project_id = host.split('.').next().unwrap_or("unknown");
     
     // Construct Neon HTTP API endpoint
-    // Note: This is a simplified approach. In production, you would use Neon's official HTTP API
-    let api_endpoint = format!("https://{}.neon.tech/api/v1/execute", host.split('.').next().unwrap_or("unknown"));
+    let api_endpoint = format!("https://console.neon.tech/api/v1/projects/{}/query", project_id);
     
-    Ok((api_endpoint, database_url))
+    // Get API key from environment
+    let api_key = env::var("NEON_API_KEY")
+        .map_err(|_| "NEON_API_KEY not found in environment variables")?;
+    
+    Ok((api_endpoint, api_key))
 }
 
-async fn execute_neon_query(query: &str, params: Option<Vec<serde_json::Value>>) -> Result<NeonQueryResponse, Error> {
-    let client = get_neon_client().await?;
-    let (_, database_url) = get_neon_connection_info()?;
+async fn execute_neon_http_query(query: &str, params: Option<Vec<serde_json::Value>>) -> Result<NeonQueryResponse, Error> {
+    let client = get_neon_http_client().await?;
+    let (api_endpoint, api_key) = get_neon_config()?;
     
-    // For now, we'll use the traditional approach but with better connection handling
-    // In a real implementation with Neon's HTTP API, you would make an HTTP request here
-    
-    // This is a placeholder - in reality, you would make an HTTP POST request to Neon's API
-    // For now, we'll keep the existing TCP-based approach but with improved error handling
-    
-    execute_tcp_query(query, params).await
-}
-
-async fn execute_tcp_query(query: &str, params: Option<Vec<serde_json::Value>>) -> Result<NeonQueryResponse, Error> {
-    use postgres_native_tls::MakeTlsConnector;
-    use native_tls::TlsConnector;
-    use tokio_postgres::types::ToSql;
-    
-    let database_url = env::var("POSTGRES_URL")
-        .or_else(|_| env::var("DATABASE_URL"))
-        .map_err(|_| "Database URL not found in environment variables")?;
-    
-    // Create TLS connector
-    let connector = TlsConnector::new()
-        .map_err(|e| format!("Failed to create TLS connector: {}", e))?;
-    let connector = MakeTlsConnector::new(connector);
-    
-    // Connect to the database
-    let (client, connection) = tokio_postgres::connect(&database_url, connector)
-        .await
-        .map_err(|e| format!("Failed to connect to database: {}", e))?;
-    
-    // Spawn the connection to run in the background
-    tokio::spawn(async move {
-        if let Err(e) = connection.await {
-            eprintln!("Database connection error: {}", e);
-        }
-    });
-    
-    // Prepare parameters for the query
-    let param_refs: Vec<&(dyn ToSql + Sync)> = if let Some(params) = params {
-        params.iter().map(|p| p as &(dyn ToSql + Sync)).collect()
-    } else {
-        vec![]
+    let query_request = NeonQueryRequest {
+        query: query.to_string(),
+        params: params.clone(),
     };
     
-    // Execute the query
-    let rows = client.query(query, &param_refs)
+    // Make HTTP request to Neon API
+    let response = client
+        .post(&api_endpoint)
+        .header("Authorization", format!("Bearer {}", api_key))
+        .header("Content-Type", "application/json")
+        .json(&query_request)
+        .send()
         .await
-        .map_err(|e| format!("Failed to execute query: {}", e))?;
+        .map_err(|e| format!("Failed to send request to Neon API: {}", e))?;
     
-    // Convert rows to JSON format
-    let json_rows: Vec<serde_json::Value> = rows
-        .into_iter()
-        .map(|row| {
-            let mut obj = serde_json::Map::new();
-            for (i, column) in row.columns().iter().enumerate() {
-                let column_name = column.name();
-                if let Ok(value) = row.try_get::<_, String>(i) {
-                    obj.insert(column_name.to_string(), serde_json::Value::String(value));
-                } else if let Ok(value) = row.try_get::<_, i32>(i) {
-                    obj.insert(column_name.to_string(), serde_json::Value::Number(serde_json::Number::from(value)));
-                } else {
-                    obj.insert(column_name.to_string(), serde_json::Value::String(format!("{:?}", row.get::<_, serde_json::Value>(i))));
-                }
-            }
-            serde_json::Value::Object(obj)
-        })
-        .collect();
+    // Check if the request was successful
+    if !response.status().is_success() {
+        let status = response.status();
+        let error_text = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
+        return Err(format!("Neon API request failed with status {}: {}", status, error_text).into());
+    }
     
-    Ok(NeonQueryResponse {
-        rows: json_rows,
-        fields: vec![], // In a real implementation, you would populate this
-    })
+    // Parse the response
+    let neon_response: NeonQueryResponse = response
+        .json()
+        .await
+        .map_err(|e| format!("Failed to parse Neon API response: {}", e))?;
+    
+    Ok(neon_response)
 }
 
 async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
@@ -224,7 +185,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
         sql.push_str(&format!(" WHERE {}", where_clauses.join(" AND ")));
     }
     
-    match execute_neon_query(&sql, Some(params)).await {
+    match execute_neon_http_query(&sql, Some(params)).await {
         Ok(result) => {
             Ok(Response::builder()
                 .status(StatusCode::OK)
@@ -243,6 +204,7 @@ async fn get_cars_with_filters(query: &str) -> Result<Response<Body>, Error> {
                 )?)
         }
         Err(e) => {
+            eprintln!("Database query error: {}", e);
             Ok(Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
                 .header("Content-Type", "application/json")
@@ -286,7 +248,7 @@ async fn create_car(req: Request) -> Result<Response<Body>, Error> {
         serde_json::Value::Number(serde_json::Number::from(car_input.year)),
     ];
     
-    match execute_neon_query(&sql, Some(params)).await {
+    match execute_neon_http_query(&sql, Some(params)).await {
         Ok(result) => {
             if let Some(first_row) = result.rows.first() {
                 Ok(Response::builder()
@@ -314,6 +276,7 @@ async fn create_car(req: Request) -> Result<Response<Body>, Error> {
             }
         }
         Err(e) => {
+            eprintln!("Database query error: {}", e);
             Ok(Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
                 .header("Content-Type", "application/json")

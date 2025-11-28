@@ -24,7 +24,7 @@ HTTP-based database drivers solve these problems by:
 
 ### 1. Neon HTTP Postgres (Recommended)
 
-Neon provides serverless Postgres with HTTP support:
+Neon provides serverless Postgres with HTTP support. Since there's no official Rust client yet, we implement direct HTTP requests:
 
 ```rust
 use reqwest::Client;
@@ -32,7 +32,14 @@ use serde_json::Value;
 
 async fn query_neon_http(query: &str, params: Vec<Value>) -> Result<Value, Error> {
     let client = Client::new();
-    let api_url = env::var("NEON_HTTP_API_URL")?;
+    
+    // Extract project info from DATABASE_URL
+    let database_url = env::var("DATABASE_URL")?;
+    let url = Url::parse(&database_url)?;
+    let project_id = url.host_str().unwrap().split('.').next().unwrap();
+    
+    // Construct Neon HTTP API endpoint
+    let api_endpoint = format!("https://console.neon.tech/api/v1/projects/{}/query", project_id);
     let api_key = env::var("NEON_API_KEY")?;
     
     let payload = json!({
@@ -41,8 +48,9 @@ async fn query_neon_http(query: &str, params: Vec<Value>) -> Result<Value, Error
     });
     
     let response = client
-        .post(&api_url)
+        .post(&api_endpoint)
         .header("Authorization", format!("Bearer {}", api_key))
+        .header("Content-Type", "application/json")
         .json(&payload)
         .send()
         .await?;
@@ -121,34 +129,33 @@ async fn query_via_http_api(query: &str) -> Result<Value, Error> {
 - No TCP restrictions
 - Universal deployment
 
-## Comparison: TCP vs HTTP
+## Implementation in cars_neon_http.rs
 
-| Aspect | TCP Connections | HTTP Requests |
-|--------|----------------|---------------|
-| Connection Overhead | High | Low |
-| Resource Usage | High | Low |
-| Scalability | Limited | High |
-| Cold Start Time | Slow | Fast |
-| Edge Support | No | Yes |
-| Complexity | High | Low |
+Our `cars_neon_http.rs` demonstrates a complete implementation using Neon's HTTP API:
 
-## Implementation in cars.rs
+1. **HTTP Client Usage**: Using `reqwest` for HTTP requests to Neon API
+2. **Environment Configuration**: Using `NEON_API_KEY` for authentication
+3. **Query Execution**: Sending SQL queries via HTTP POST requests
+4. **Response Handling**: Parsing JSON responses from Neon API
+5. **Error Management**: Proper error propagation and handling
 
-Our updated `cars_http.rs` demonstrates:
+## Required Environment Variables
 
-1. **HTTP Client Usage**: Using `reqwest` for HTTP requests
-2. **Flexible Architecture**: Easy to switch between TCP and HTTP
-3. **Environment Variables**: Secure configuration management
-4. **Error Handling**: Proper error propagation
-5. **JSON Responses**: Native JSON support
+```bash
+# Neon Database Connection (for TCP fallback)
+POSTGRES_URL=postgres://username:password@project-id.region.provider.neon.tech/dbname
+
+# Neon API Key (for HTTP access)
+NEON_API_KEY=your-neon-api-key
+```
 
 ## Best Practices
 
 ### 1. Environment Configuration
 ```bash
 # Neon HTTP API (recommended)
-NEON_HTTP_API_URL=https://your-project.neon.tech/api/v1/execute
-NEON_API_KEY=your-api-key
+NEON_API_KEY=your-api-key-from-neon-console
+POSTGRES_URL=your-neon-database-url
 
 # Turso
 TURSO_DATABASE_URL=https://your-db.turso.io
@@ -157,7 +164,7 @@ TURSO_AUTH_TOKEN=your-auth-token
 
 ### 2. Error Handling
 ```rust
-match execute_http_query(&sql, params).await {
+match execute_neon_http_query(&sql, params).await {
     Ok(result) => Ok(success_response(result)),
     Err(e) => {
         eprintln!("Database error: {}", e);
@@ -178,32 +185,23 @@ lazy_static::lazy_static! {
 
 ### From TCP to HTTP:
 
-1. **Replace Dependencies**:
+1. **Add Dependencies**:
    ```toml
-   # Remove
-   tokio-postgres = "0.7"
-   postgres-native-tls = "0.5"
-   
-   # Add
    reqwest = { version = "0.11", features = ["json"] }
    ```
 
-2. **Update Connection Logic**:
-   ```rust
-   // Old TCP approach
-   let (client, connection) = tokio_postgres::connect(&url, connector).await?;
-   
-   // New HTTP approach
-   let response = client.post(&api_url).json(&query).send().await?;
+2. **Add Environment Variables**:
+   ```bash
+   NEON_API_KEY=your-neon-api-key
    ```
 
-3. **Adjust Query Execution**:
+3. **Update Query Execution**:
    ```rust
    // Old TCP approach
    let rows = client.query(&sql, &params).await?;
    
    // New HTTP approach
-   let result = execute_http_query(&sql, params).await?;
+   let result = execute_neon_http_query(&sql, params).await?;
    ```
 
 ## Performance Considerations
@@ -248,8 +246,25 @@ eprintln!("Query duration: {}ms", duration);
 - Monitor error rates
 - Measure throughput
 
+## Example Usage
+
+The `cars_neon_http.rs` file provides a complete example of:
+
+1. **GET /api/cars** - Retrieve cars with optional filtering
+2. **POST /api/cars** - Create new car records
+3. **HTTP-based Database Access** - Using Neon's HTTP API
+4. **Proper Error Handling** - Graceful error responses
+5. **JSON Response Formatting** - Consistent API responses
+
 ## Conclusion
 
 HTTP-based database drivers provide a cleaner, more scalable solution for Rust serverless functions. While they may introduce slight overhead compared to direct TCP connections, the benefits in terms of scalability, simplicity, and compatibility with serverless environments far outweigh this cost.
 
 For production deployments handling high traffic, the HTTP approach is strongly recommended over traditional TCP connections.
+
+## Setting Up Neon HTTP Access
+
+1. Get your Neon API key from the Neon console
+2. Set the `NEON_API_KEY` environment variable
+3. Deploy your Rust function to Vercel
+4. The function will automatically use HTTP-based database access

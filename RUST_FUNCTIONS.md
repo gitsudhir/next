@@ -9,7 +9,7 @@ This project includes Rust-based serverless functions that can be deployed to Ve
 3. `/api/esp32_sensor.rs` - An enhanced ESP32 sensor data handler with validation
 4. `/api/send_sensor_data.rs` - A function to send sensor data to an ESP32 device
 5. `/api/cars.rs` - A REST API for managing cars in a PostgreSQL database (TCP-based)
-6. `/api/cars_http.rs` - A REST API for managing cars using HTTP-based database access
+6. `/api/cars_neon_http.rs` - A REST API for managing cars using Neon's HTTP API
 
 ## Setup
 
@@ -21,11 +21,10 @@ This project includes Rust-based serverless functions that can be deployed to Ve
 The cars API connects to a PostgreSQL database using environment variables:
 - `POSTGRES_URL` or `DATABASE_URL` - Database connection string
 
-Vercel automatically sets these when you add a PostgreSQL database to your project.
+For HTTP-based database access, you'll also need:
+- `NEON_API_KEY` - Neon API key for authentication (get this from Neon console)
 
-For HTTP-based database access, you may also need:
-- `NEON_HTTP_API_URL` - Neon HTTP API endpoint
-- `NEON_API_KEY` - Neon API key for authentication
+Vercel automatically sets the database URL when you add a PostgreSQL database to your project.
 
 ## Local Development
 
@@ -57,7 +56,7 @@ This makes Rust serverless functions ideal for:
 
 ## HTTP-Based Database Access
 
-For better scalability in serverless environments, we provide an HTTP-based version of the cars API (`cars_http.rs`) that uses HTTP requests instead of TCP connections to communicate with the database.
+For better scalability in serverless environments, we provide an HTTP-based version of the cars API (`cars_neon_http.rs`) that uses HTTP requests instead of TCP connections to communicate with the Neon database.
 
 See [HTTP_DATABASE_ACCESS.md](HTTP_DATABASE_ACCESS.md) for detailed information about:
 - Why HTTP-based database access is better for serverless
@@ -93,7 +92,7 @@ The cars API provides a complete RESTful interface for managing car records in a
 For information about how the cars API scales and how to optimize it for high traffic, see [CARS_API_SCALING.md](CARS_API_SCALING.md).
 
 ### HTTP-Based Alternative
-For better serverless scalability, see [HTTP_DATABASE_ACCESS.md](HTTP_DATABASE_ACCESS.md) for an HTTP-based implementation that eliminates TCP connection issues.
+For better serverless scalability without TCP connection issues, see `cars_neon_http.rs` which uses Neon's HTTP API.
 
 ### Endpoints
 
@@ -189,6 +188,26 @@ if !where_clauses.is_empty() {
 }
 ```
 
+## Cars API with Neon HTTP (/api/cars_neon_http)
+
+### Overview
+This is an HTTP-based version of the cars API that uses Neon's HTTP API instead of direct TCP connections, eliminating connection pooling issues in serverless environments.
+
+### Features
+- Same functionality as the TCP-based version
+- HTTP-based database access for better scalability
+- No connection management overhead
+- Works perfectly with serverless cold starts
+
+### Required Environment Variables
+- `NEON_API_KEY` - Your Neon API key (get from Neon console)
+
+### Benefits
+- Eliminates TCP connection issues
+- Better performance during cold starts
+- Higher concurrent request handling
+- No database connection limits
+
 ## Other API Endpoints
 
 ### GET /api/hello
@@ -277,3 +296,4 @@ curl -X POST http://localhost:3000/api/cars \
 - Database connections are handled automatically when deployed to Vercel
 - Query parameters in curl commands must be quoted to prevent shell interpretation issues
 - Next.js API routes take precedence over Rust functions at the same URL path
+- For HTTP-based database access, set the `NEON_API_KEY` environment variable
