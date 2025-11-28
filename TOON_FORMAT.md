@@ -134,60 +134,74 @@ cars[2]{brand,model,year}:
 Add to `Cargo.toml`:
 ```toml
 [dependencies]
-toon-format = "0.1"
+json2toon_rs = "0.2"
 serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 ```
 
 ### Basic Usage
 ```rust
 use serde::{Serialize, Deserialize};
-use toon_format::{encode_default, decode_default};
-
-#[derive(Serialize, Deserialize)]
-struct Car {
-    brand: String,
-    model: String,
-    year: i32,
-}
+use json2toon_rs::{encode, decode, EncoderOptions, DecoderOptions};
+use serde_json::json;
 
 // Encoding to TOON
-let car = Car {
-    brand: "Toyota".to_string(),
-    model: "Camry".to_string(),
-    year: 2015,
-};
-
-let toon_string = encode_default(&car)?;
-println!("{}", toon_string);
-// Output:
-// brand: Toyota
-// model: Camry
-// year: 2015
-
-// Decoding from TOON
-let decoded_car: Car = decode_default(&toon_string)?;
-assert_eq!(car, decoded_car);
-```
-
-### Working with JSON Values
-```rust
-use serde_json::Value;
-use toon_format::{encode_default, decode_default};
-
-let json_data = json!({
+let data = json!({
     "users": [
         {"name": "Alice", "age": 30},
         {"name": "Bob", "age": 25}
     ]
 });
 
-let toon_string = encode_default(&json_data)?;
-let decoded_json: Value = decode_default(&toon_string)?;
+let toon_string = encode(&data, &EncoderOptions::default());
+println!("{}", toon_string);
+// Output:
+// users[2]{name,age}:
+//   Alice,30
+//   Bob,25
+
+// Decoding from TOON
+let decoded_json = decode(&toon_string, &DecoderOptions::default())?;
 ```
 
-## HTTP API Considerations
+## API Development with TOON
 
-### Content Types
+### Faster responses with smaller payloads
+TOON is perfect for:
+- REST API responses
+- GraphQL query results
+- Webhook payloads
+- Real-time data streaming
+
+### Example Code (Rust/Vercel)
+```rust
+use vercel_runtime::{run, Body, Error, Request, Response, StatusCode};
+use json2toon_rs::{encode, EncoderOptions};
+use serde_json::json;
+
+// API Response
+pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
+    let users = get_users_from_db(); // Your database function
+    
+    // Convert to JSON value
+    let json_value = serde_json::to_value(&users)?;
+    
+    // Encode to TOON format (50% smaller)
+    let toon_response = encode(&json_value, &EncoderOptions::default());
+    
+    // Send TOON format response
+    Ok(Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "text/plain") // TOON uses plain text
+        .body(toon_response.into())?)
+    
+    // Clients can easily decode:
+    // const users = decodeToon(response);
+}
+```
+
+### HTTP Headers
+When using TOON format, use these standard headers:
 - **Request**: `Content-Type: text/plain`
 - **Response**: `Content-Type: text/plain`
 
@@ -209,6 +223,26 @@ filters{brand,model,year}:
   Toyota,,
 ```
 
+## Working with Different Content Types
+
+While `text/plain` is the most common content type for TOON, you can also use:
+
+### Custom MIME Type
+```rust
+.header("Content-Type", "application/toon")
+```
+
+### Content Negotiation
+```rust
+// Check Accept header
+let accept_header = req.headers().get("accept").and_then(|h| h.to_str().ok());
+let content_type = if accept_header == Some("application/toon") {
+    "application/toon"
+} else {
+    "text/plain"
+};
+```
+
 ## Best Practices
 
 ### 1. Schema Definition
@@ -223,6 +257,19 @@ code: DB_CONNECTION_ERROR
 
 ### 3. Validation
 Validate TOON input data before processing, just as you would with JSON.
+
+### 4. Documentation
+Clearly document your TOON API endpoints with examples:
+```bash
+# Get users
+GET /api/toon/users
+Accept: text/plain
+
+# Response:
+users[2]{id,name,email}:
+  1,Alice,alice@example.com
+  2,Bob,bob@example.com
+```
 
 ## Migration from JSON
 
@@ -251,7 +298,7 @@ match content_type {
 ## Libraries
 
 ### Rust
-- `toon-format` - Official Rust implementation
+- `json2toon_rs` - Full TOON v2.0 specification compliant implementation
 
 ### JavaScript/TypeScript
 - `toon-js` - JavaScript implementation
@@ -262,3 +309,9 @@ match content_type {
 ## Conclusion
 
 TOON provides an excellent solution for reducing token usage in LLM applications while maintaining full data structure capabilities. By eliminating redundant syntax and optimizing for compactness, TOON can significantly reduce costs and improve performance in token-sensitive applications.
+
+For serverless environments like Vercel, TOON is particularly beneficial because:
+1. Smaller payloads reduce bandwidth costs
+2. Faster parsing improves cold start performance
+3. Reduced token usage lowers LLM API costs
+4. Compact format works well with edge computing limitations
