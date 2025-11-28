@@ -35,3 +35,11 @@ path = "api/send_sensor_data.rs"
 [[bin]]
 name = "cars"
 path = "api/cars.rs"
+
+[[bin]]
+name = "cars_id"
+path = "api/cars/[id].rs"
+
+[[bin]]
+name = "test_db_connection"
+path = "test_db_connection.rs"
