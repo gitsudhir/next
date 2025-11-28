@@ -80,19 +80,23 @@ async fn get_database_client() -> Result<Client, Error> {
         .or_else(|_| env::var("DATABASE_URL"))
         .map_err(|_| "Database URL not found in environment variables")?;
     
-    // Connect to the database
-    let (client, connection) = tokio_postgres::connect(&database_url, NoTls)
-        .await
-        .map_err(|e| format!("Failed to connect to database: {}", e))?;
-    
-    // Spawn the connection to run in the background
-    tokio::spawn(async move {
-        if let Err(e) = connection.await {
-            eprintln!("Database connection error: {}", e);
+    // For Vercel deployments, we can use a simpler approach
+    // Let's try to connect with NoTls first, and if that fails, we'll handle it gracefully
+    match tokio_postgres::connect(&database_url, NoTls).await {
+        Ok((client, connection)) => {
+            // Spawn the connection to run in the background
+            tokio::spawn(async move {
+                if let Err(e) = connection.await {
+                    eprintln!("Database connection error: {}", e);
+                }
+            });
+            Ok(client)
         }
-    });
-    
-    Ok(client)
+        Err(e) => {
+            eprintln!("Database connection error: {}", e);
+            Err(format!("Failed to connect to database: {}", e).into())
+        }
+    }
 }
 
 async fn get_all_cars() -> Result<Response<Body>, Error> {
