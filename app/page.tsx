@@ -23,14 +23,14 @@ export default function Home() {
           <div className="mb-6 flex justify-center">
             <div className="relative">
               <Image
-                src="/profile-picture.jpg"
+                src="/profile-picture.png"
                 alt="Sudhir Kumar"
-                width={160}
-                height={160}
+                width={200}
+                height={200}
                 className="rounded-full object-cover border-2 border-white shadow-xl"
                 priority
               />
-              <div className="absolute inset-0 rounded-full border-2 border-white shadow-xl"></div>
+
             </div>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
@@ -44,23 +44,23 @@ export default function Home() {
             Expertise in distributed systems, cloud architecture, and scalable backend solutions.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a 
-              href="mailto:strr7452@gmail.com" 
+            <a
+              href="mailto:strr7452@gmail.com"
               className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium rounded-full hover:from-red-600 hover:to-orange-600 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Get In Touch
             </a>
-            <a 
-              href="https://www.linkedin.com/in/sudhirkumar-in" 
-              target="_blank" 
+            <a
+              href="https://www.linkedin.com/in/sudhirkumar-in"
+              target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full border border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
             >
               LinkedIn
             </a>
-            <a 
-              href="https://github.com/gitsudhir" 
-              target="_blank" 
+            <a
+              href="https://github.com/gitsudhir"
+              target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full border border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
             >
@@ -79,11 +79,11 @@ export default function Home() {
           </div>
           <div className="max-w-4xl mx-auto">
             <p className="text-lg text-gray-700 leading-relaxed">
-              Backend-focused Senior Software Engineer with extensive experience in building high-performance, 
-              scalable applications using Rust, Node.js, and modern backend technologies. Currently leading 
-              development efforts on a payment orchestration system at Gazoole Technologies. Specialized in 
-              distributed systems, cloud infrastructure, payment processing, and scalable backend solutions. 
-              Strong expertise in Rust programming with a focus on modular, asynchronous architecture for 
+              Backend-focused Senior Software Engineer with extensive experience in building high-performance,
+              scalable applications using Rust, Node.js, and modern backend technologies. Currently leading
+              development efforts on a payment orchestration system at Gazoole Technologies. Specialized in
+              distributed systems, cloud infrastructure, payment processing, and scalable backend solutions.
+              Strong expertise in Rust programming with a focus on modular, asynchronous architecture for
               financial systems.
             </p>
           </div>
@@ -242,13 +242,13 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900">Lead Developer</h3>
               <p className="text-lg text-gray-600 mb-3">Gazoole Technologies Pvt. Ltd</p>
               <p className="text-gray-700">
-                Working on a payment orchestration system for AtlPay. Developing and integrating new payment and 
-                payout connectors within the Hyperswitch framework, using Rust with an emphasis on modular, 
-                asynchronous architecture. Handling connector configuration, request/response flows, authentication 
-                mechanisms, error handling, and ensuring compliance with third-party processor APIs. Deployed the 
-                system on AWS EC2 instances, containerized with Docker, and orchestrated using Kubernetes. 
-                Monitoring system performance and container health using Datadog Agent deployed as a Kubernetes 
-                DaemonSet. Working closely with DevOps and QA to ensure high availability, observability, and 
+                Working on a payment orchestration system for AtlPay. Developing and integrating new payment and
+                payout connectors within the Hyperswitch framework, using Rust with an emphasis on modular,
+                asynchronous architecture. Handling connector configuration, request/response flows, authentication
+                mechanisms, error handling, and ensuring compliance with third-party processor APIs. Deployed the
+                system on AWS EC2 instances, containerized with Docker, and orchestrated using Kubernetes.
+                Monitoring system performance and container health using Datadog Agent deployed as a Kubernetes
+                DaemonSet. Working closely with DevOps and QA to ensure high availability, observability, and
                 fault tolerance in payment workflows.
               </p>
             </div>
@@ -262,9 +262,9 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900">Senior Software Engineer</h3>
               <p className="text-lg text-gray-600 mb-3">iSpace Software Solutions India Pvt. Ltd</p>
               <p className="text-gray-700">
-                Led backend development efforts in creating and optimizing scalable applications using Node.js and 
-                Express.js. Mentored junior developers, improving team productivity by guiding best practices in 
-                Node.js and database management. Designed and optimized database schemas for high-traffic 
+                Led backend development efforts in creating and optimizing scalable applications using Node.js and
+                Express.js. Mentored junior developers, improving team productivity by guiding best practices in
+                Node.js and database management. Designed and optimized database schemas for high-traffic
                 applications, utilizing PostgreSQL and MongoDB.
               </p>
             </div>
@@ -278,8 +278,8 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900">Senior Associate Engineer</h3>
               <p className="text-lg text-gray-600 mb-3">HanRiver Technology</p>
               <p className="text-gray-700">
-                Developed backend solutions with a focus on scalability and efficiency, contributing to complex 
-                engineering projects. Optimized data processing pipelines for large-scale data, improving system 
+                Developed backend solutions with a focus on scalability and efficiency, contributing to complex
+                engineering projects. Optimized data processing pipelines for large-scale data, improving system
                 throughput. Built fault-tolerant services using microservices architecture and system design principles.
               </p>
             </div>
@@ -293,8 +293,8 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900">Backend Engineer</h3>
               <p className="text-lg text-gray-600 mb-3">Aexonic Technologies</p>
               <p className="text-gray-700">
-                Improved backend performance using efficient data structures and optimized algorithms. Delivered 
-                scalable product features via microservices development. Maintained code quality through unit tests 
+                Improved backend performance using efficient data structures and optimized algorithms. Delivered
+                scalable product features via microservices development. Maintained code quality through unit tests
                 and code reviews.
               </p>
             </div>
@@ -308,7 +308,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900">Software Engineer</h3>
               <p className="text-lg text-gray-600 mb-3">WorkPlace Fabric India Pvt. Ltd</p>
               <p className="text-gray-700">
-                Built APIs and server-side features in Node.js, increasing business efficiency by 40%. Used AWS 
+                Built APIs and server-side features in Node.js, increasing business efficiency by 40%. Used AWS
                 CloudFront to reduce page load times by 70%.
               </p>
             </div>
@@ -328,8 +328,8 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Payment Orchestration System (Hyperswitch Framework)</h3>
                 <p className="text-gray-700 mb-4">
-                  Leading development of a payment orchestration system for AtlPay using the Hyperswitch framework. 
-                  Building and integrating new payment and payout connectors with Rust, focusing on modular, 
+                  Leading development of a payment orchestration system for AtlPay using the Hyperswitch framework.
+                  Building and integrating new payment and payout connectors with Rust, focusing on modular,
                   asynchronous architecture.
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -344,7 +344,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Cloud-Native Deployment & Monitoring</h3>
                 <p className="text-gray-700 mb-4">
-                  Deployed payment systems on AWS EC2 instances with Docker containerization and Kubernetes orchestration. 
+                  Deployed payment systems on AWS EC2 instances with Docker containerization and Kubernetes orchestration.
                   Implemented comprehensive monitoring using Datadog Agent as a Kubernetes DaemonSet.
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -359,7 +359,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">High-Performance Backend Systems</h3>
                 <p className="text-gray-700 mb-4">
-                  Developed scalable backend solutions with a focus on performance and efficiency. Optimized data 
+                  Developed scalable backend solutions with a focus on performance and efficiency. Optimized data
                   processing pipelines for large-scale data operations and built fault-tolerant services.
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -374,7 +374,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Open Source Contributions</h3>
                 <p className="text-gray-700 mb-4">
-                  Contributed to the ByteByteGo System Design Community with code and improvements to educational 
+                  Contributed to the ByteByteGo System Design Community with code and improvements to educational
                   materials. Actively contributed to the &#34;Coding Interview Patterns&#34; book project with Rust code samples.
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -398,8 +398,8 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-8 shadow-sm">
               <p className="text-lg text-gray-700 mb-6">
-                In my spare time, I explore embedded systems programming with Rust on ESP32 microcontrollers. 
-                This hobby allows me to leverage Rust&#39;s memory safety and performance benefits in resource-constrained 
+                In my spare time, I explore embedded systems programming with Rust on ESP32 microcontrollers.
+                This hobby allows me to leverage Rust&#39;s memory safety and performance benefits in resource-constrained
                 environments while building innovative IoT solutions.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -477,31 +477,31 @@ export default function Home() {
             I&#39;m always open to new opportunities, collaborations, and interesting conversations about technology.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a 
-              href="mailto:strr7452@gmail.com" 
+            <a
+              href="mailto:strr7452@gmail.com"
               className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Email Me
             </a>
-            <a 
-              href="https://www.linkedin.com/in/sudhirkumar-in" 
-              target="_blank" 
+            <a
+              href="https://www.linkedin.com/in/sudhirkumar-in"
+              target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
             >
               LinkedIn
             </a>
-            <a 
-              href="https://github.com/gitsudhir" 
-              target="_blank" 
+            <a
+              href="https://github.com/gitsudhir"
+              target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
             >
               GitHub
             </a>
-            <a 
-              href="https://leetcode.com/u/sudhirkumar-in/" 
-              target="_blank" 
+            <a
+              href="https://leetcode.com/u/sudhirkumar-in/"
+              target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
             >
