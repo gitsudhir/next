@@ -6,8 +6,9 @@ import Navigation from "../components/Navigation";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sudhir Kumar",
-  description: "Senior Software Engineer",
+  title: "Sudhir Kumar | Lead Rust Developer & Payment Systems Expert",
+  description: "Backend-focused Senior Software Engineer specializing in high-performance payment systems using Rust. Expertise in distributed systems, cloud architecture, and scalable backend solutions.",
+  keywords: "Rust Developer, Payment Systems, Backend Engineer, Distributed Systems, Cloud Architecture, Kubernetes, Docker, AWS, PostgreSQL, MongoDB",
 };
 
 export default function RootLayout({
@@ -19,9 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Navigation />
-        <div className="min-h-screen bg-gray-50">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

@@ -1,279 +1,521 @@
 import Image from "next/image";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Sudhir Kumar | Lead Rust Developer & Payment Systems Expert",
+  description: "Backend-focused Senior Software Engineer specializing in high-performance payment systems using Rust. Expertise in distributed systems, cloud architecture, and scalable backend solutions.",
+  keywords: "Rust Developer, Payment Systems, Backend Engineer, Distributed Systems, Cloud Architecture, Kubernetes, Docker, AWS, PostgreSQL, MongoDB",
+  authors: [{ name: "Sudhir Kumar" }],
+  openGraph: {
+    title: "Sudhir Kumar | Lead Rust Developer & Payment Systems Expert",
+    description: "Backend-focused Senior Software Engineer specializing in high-performance payment systems using Rust.",
+    type: "website",
+    locale: "en_US",
+  },
+};
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 text-gray-900 p-4 sm:p-6">
-      {/* Header Section */}
-      <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-red-600 mb-2">Sudhir Kumar</h1>
-        <p className="text-xl text-gray-500">Senior Full Stack Developer</p>
-        <p className="text-md text-gray-600 mt-2">
-          Passionate about building scalable and high-performance applications.
-          Expertise in full-stack development, cloud architecture, and
-          microservices.
-        </p>
-      </header>
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-16">
+      {/* Hero Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="mb-6 flex justify-center">
+            <div className="relative">
+              <Image
+                src="/profile-picture.jpg"
+                alt="Sudhir Kumar"
+                width={160}
+                height={160}
+                className="rounded-full object-cover border-2 border-white shadow-xl"
+                priority
+              />
+              <div className="absolute inset-0 rounded-full border-2 border-white shadow-xl"></div>
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+            Sudhir Kumar
+          </h1>
+          <h2 className="text-xl md:text-2xl text-gray-600 mb-6">
+            Lead Developer - Rust Backend Engineer
+          </h2>
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-8">
+            Backend-focused Senior Software Engineer specializing in high-performance payment systems using Rust.
+            Expertise in distributed systems, cloud architecture, and scalable backend solutions.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a 
+              href="mailto:strr7452@gmail.com" 
+              className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium rounded-full hover:from-red-600 hover:to-orange-600 transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              Get In Touch
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/sudhirkumar-in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full border border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              LinkedIn
+            </a>
+            <a 
+              href="https://github.com/gitsudhir" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full border border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
 
       {/* Summary Section */}
-      <section className="w-full max-w-4xl mb-16 p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Summary</h2>
-        <p className="text-lg text-gray-700">
-          With over 6 years of experience in full-stack development, I
-          specialize in building robust and scalable applications using modern
-          technologies. My expertise spans across frontend and backend
-          technologies such as React.js, Node.js, PostgreSQL, and AWS. I have a
-          strong passion for microservices architecture,microfrontend
-          architecture, cloud computing, and developing high-performance
-          solutions.
-        </p>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">About Me</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Backend-focused Senior Software Engineer with extensive experience in building high-performance, 
+              scalable applications using Rust, Node.js, and modern backend technologies. Currently leading 
+              development efforts on a payment orchestration system at Gazoole Technologies. Specialized in 
+              distributed systems, cloud infrastructure, payment processing, and scalable backend solutions. 
+              Strong expertise in Rust programming with a focus on modular, asynchronous architecture for 
+              financial systems.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Skills Section */}
-      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Technical Skills</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-          <div>
-            <h3 className="font-semibold">Frontend</h3>
-            <ul className="list-disc pl-5">
-              <li>React.js</li>
-              <li>Next.js</li>
-              <li>Tailwind CSS</li>
-              <li>React Native</li>
-              <li>Microfrontends</li>
-            </ul>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Technical Skills</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
           </div>
-          <div>
-            <h3 className="font-semibold">Backend</h3>
-            <ul className="list-disc pl-5">
-              <li>Node.js</li>
-              <li>NestJS</li>
-              <li>Express.js</li>
-              <li>TypeScript</li>
-              <li>TypeORM</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold">Cloud & DevOps</h3>
-            <ul className="list-disc pl-5">
-              <li>AWS (Lambda, S3, EC2, API Gateway, etc.)</li>
-              <li>Docker</li>
-              <li>CI/CD (Gitub Action,Jenkins)</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold">Databases</h3>
-            <ul className="list-disc pl-5">
-              <li>PostgreSQL</li>
-              <li>MySQL</li>
-              <li>MongoDB</li>
-              <li>🌟 SQL 50 Badge on LeetCode</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold">Security & Testing</h3>
-            <ul className="list-disc pl-5">
-              <li>Burp Suite (API Security Testing)</li>
-              <li>OWASP Best Practices</li>
-              <li>Unit & Integration Testing</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold">Microservices</h3>
-            <ul className="list-disc pl-5">
-              <li>Redis</li>
-              <li>AWS SQS</li>
-              <li>MQTT</li>
-              <li>Kafka</li>
-            </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Programming Languages</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Rust</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">JavaScript</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">TypeScript</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Node.js</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Frameworks & Libraries</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Express.js</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Nest.js</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Axum</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Tokio</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Databases</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">PostgreSQL</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">MongoDB</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">MySQL</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Cloud & DevOps</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">AWS (EC2, S3, CloudFront)</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Docker</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Kubernetes</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">CI/CD Pipelines</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Architecture & Tools</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Microservices</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">System Design</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Git & Version Control</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Datadog Monitoring</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Specialized Areas</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Payment Orchestration</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Scalable Architecture</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Data Structures & Algorithms</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                  <span className="text-gray-700">Test-Driven Development</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Experience Section */}
-      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Experience</h2>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Senior Software Engineer | iSpace Software Pvt Ltd
-            </h3>
-            <p className="text-sm text-gray-500">July 2024 – Present</p>
-            <p>
-              Lead the full-stack development of enterprise applications,
-              integrating Node.js, AWS services, and PostgreSQL for
-              high-availability systems. Developed and maintained scalable
-              microservices architecture using AWS Lambda, SQS, and API Gateway.
-            </p>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Experience</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
           </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Senior Associate Engineer | Hanriver Technology Pvt Ltd
-            </h3>
-            <p className="text-sm text-gray-500">Feb 2023 – June 2024</p>
-            <p>
-              Developed APIs and backend systems using Express.js and MySQL,
-              integrating caching with Redis for optimized performance. Ensured
-              continuous delivery through Jenkins CI/CD pipelines, and improved
-              security through proactive testing with Burp Suite.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Backend Engineer | Aexonic Technologies Pvt Ltd
-            </h3>
-            <p className="text-sm text-gray-500">Oct 2022 – Jan 2023</p>
-            <p>
-              Focused on optimizing MongoDB queries, writing efficient
-              serverless functions using Node.js, and contributing to internal
-              tools. Maintained secure VPN configurations and developed RESTful
-              APIs for internal services.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Software Engineer | Workplace Fabric India Ltd
-            </h3>
-            <p className="text-sm text-gray-500">Jan 2019 – Sep 2022</p>
-            <p>
-              Worked on enterprise IoT applications, developing progressive web
-              apps and dashboards. Implemented JWT authentication and designed
-              microservices using AWS Lambda functions to scale business
-              solutions.
-            </p>
+          <div className="max-w-4xl mx-auto space-y-12">
+            <div className="relative pl-8 border-l-2 border-gray-200">
+              <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-red-500"></div>
+              <div className="mb-1">
+                <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                  June 2025 - Present
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Lead Developer</h3>
+              <p className="text-lg text-gray-600 mb-3">Gazoole Technologies Pvt. Ltd</p>
+              <p className="text-gray-700">
+                Working on a payment orchestration system for AtlPay. Developing and integrating new payment and 
+                payout connectors within the Hyperswitch framework, using Rust with an emphasis on modular, 
+                asynchronous architecture. Handling connector configuration, request/response flows, authentication 
+                mechanisms, error handling, and ensuring compliance with third-party processor APIs. Deployed the 
+                system on AWS EC2 instances, containerized with Docker, and orchestrated using Kubernetes. 
+                Monitoring system performance and container health using Datadog Agent deployed as a Kubernetes 
+                DaemonSet. Working closely with DevOps and QA to ensure high availability, observability, and 
+                fault tolerance in payment workflows.
+              </p>
+            </div>
+            <div className="relative pl-8 border-l-2 border-gray-200">
+              <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-red-500"></div>
+              <div className="mb-1">
+                <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                  July 2024 - May 2025
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Senior Software Engineer</h3>
+              <p className="text-lg text-gray-600 mb-3">iSpace Software Solutions India Pvt. Ltd</p>
+              <p className="text-gray-700">
+                Led backend development efforts in creating and optimizing scalable applications using Node.js and 
+                Express.js. Mentored junior developers, improving team productivity by guiding best practices in 
+                Node.js and database management. Designed and optimized database schemas for high-traffic 
+                applications, utilizing PostgreSQL and MongoDB.
+              </p>
+            </div>
+            <div className="relative pl-8 border-l-2 border-gray-200">
+              <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-red-500"></div>
+              <div className="mb-1">
+                <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                  Feb 2023 - Jun 2024
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Senior Associate Engineer</h3>
+              <p className="text-lg text-gray-600 mb-3">HanRiver Technology</p>
+              <p className="text-gray-700">
+                Developed backend solutions with a focus on scalability and efficiency, contributing to complex 
+                engineering projects. Optimized data processing pipelines for large-scale data, improving system 
+                throughput. Built fault-tolerant services using microservices architecture and system design principles.
+              </p>
+            </div>
+            <div className="relative pl-8 border-l-2 border-gray-200">
+              <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-red-500"></div>
+              <div className="mb-1">
+                <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                  Oct 2022 - Jan 2023
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Backend Engineer</h3>
+              <p className="text-lg text-gray-600 mb-3">Aexonic Technologies</p>
+              <p className="text-gray-700">
+                Improved backend performance using efficient data structures and optimized algorithms. Delivered 
+                scalable product features via microservices development. Maintained code quality through unit tests 
+                and code reviews.
+              </p>
+            </div>
+            <div className="relative pl-8 border-l-2 border-gray-200">
+              <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-red-500"></div>
+              <div className="mb-1">
+                <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                  Jan 2019 - Sep 2022
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Software Engineer</h3>
+              <p className="text-lg text-gray-600 mb-3">WorkPlace Fabric India Pvt. Ltd</p>
+              <p className="text-gray-700">
+                Built APIs and server-side features in Node.js, increasing business efficiency by 40%. Used AWS 
+                CloudFront to reduce page load times by 70%.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Selected Projects</h2>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Engineering Measuring Platform
-            </h3>
-            <p>
-              Developed a platform to track and measure key engineering metrics
-              in real-time, optimizing backend performance and API response
-              times.
-            </p>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Selected Projects</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
           </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">Enterprise IoT Dashboard</h3>
-            <p>
-              Built a real-time monitoring dashboard for enterprise IoT devices
-              using Node.js, React, and AWS IoT services to track device status
-              and metrics.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Custom API Solutions for Enterprises
-            </h3>
-            <p>
-              Designed and implemented custom API solutions for enterprise
-              clients, focusing on security, performance optimizations, and
-              scalability.
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Payment Orchestration System (Hyperswitch Framework)</h3>
+                <p className="text-gray-700 mb-4">
+                  Leading development of a payment orchestration system for AtlPay using the Hyperswitch framework. 
+                  Building and integrating new payment and payout connectors with Rust, focusing on modular, 
+                  asynchronous architecture.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Rust</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">AWS</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Kubernetes</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Docker</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Cloud-Native Deployment & Monitoring</h3>
+                <p className="text-gray-700 mb-4">
+                  Deployed payment systems on AWS EC2 instances with Docker containerization and Kubernetes orchestration. 
+                  Implemented comprehensive monitoring using Datadog Agent as a Kubernetes DaemonSet.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">AWS</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Kubernetes</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Datadog</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">DevOps</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-3">High-Performance Backend Systems</h3>
+                <p className="text-gray-700 mb-4">
+                  Developed scalable backend solutions with a focus on performance and efficiency. Optimized data 
+                  processing pipelines for large-scale data operations and built fault-tolerant services.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Node.js</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">PostgreSQL</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">MongoDB</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Microservices</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Open Source Contributions</h3>
+                <p className="text-gray-700 mb-4">
+                  Contributed to the ByteByteGo System Design Community with code and improvements to educational 
+                  materials. Actively contributed to the &#34;Coding Interview Patterns&#34; book project with Rust code samples.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Rust</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Open Source</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-medium rounded-full">Education</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      {/* Education Section */}
-      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Education</h2>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Master in Computer Application
-            </h3>
-            <p className="text-sm text-gray-500">
-              National Insititute of Technology , Jamshedpur | 2016 – 2019
-            </p>
-            <p>
-              Completed coursework in software engineering, algorithms,
-              databases, and cloud computing. Actively participated in
-              hackathons and software development competitions, securing
-              positions.
-            </p>
+
+      {/* IoT & Embedded Systems Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">IoT & Embedded Systems</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-8 shadow-sm">
+              <p className="text-lg text-gray-700 mb-6">
+                In my spare time, I explore embedded systems programming with Rust on ESP32 microcontrollers. 
+                This hobby allows me to leverage Rust&#39;s memory safety and performance benefits in resource-constrained 
+                environments while building innovative IoT solutions.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">ESP32 IoT Projects</h3>
+                  <ul className="space-y-2 text-gray-700">
+                    <li className="flex items-start">
+                      <span className="text-red-500 mr-2">•</span>
+                      <span>WiFi-enabled ultrasonic sensor systems with LED matrix displays</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 mr-2">•</span>
+                      <span>Bluetooth Low Energy (BLE) services and communication protocols</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 mr-2">•</span>
+                      <span>Asynchronous counter implementations with real-time monitoring</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Technical Focus</h3>
+                  <ul className="space-y-2 text-gray-700">
+                    <li className="flex items-start">
+                      <span className="text-red-500 mr-2">•</span>
+                      <span>Happy birthday melody player using buzzers and audio generation</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 mr-2">•</span>
+                      <span>Matrix display controllers with API integration capabilities</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-500 mr-2">•</span>
+                      <span>Exploring Rust&#39;s zero-cost abstractions and ownership model</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
       {/* Certifications Section */}
-      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Certifications</h2>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              AWS Certified Solutions Architect
-            </h3>
-            <p className="text-sm text-gray-500">Edureka | May 2024</p>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Certifications</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
           </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Master in DSA & System Design
-            </h3>
-            <p className="text-sm text-gray-500">HeyCoach | March 2024</p>
-          </div>
-        </div>
-      </section>
-      {/* Achievements Section */}
-      <section className="w-full max-w-4xl mb-16 p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">Achievements</h2>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">SQL 50 Badge on LeetCode</h3>
-            <p className="text-sm text-gray-500">LeetCode | November 2024</p>
-            <p>
-              Earned the prestigious SQL 50 badge on LeetCode, recognizing my
-              dedication and expertise in working with databases. This
-              achievement reflects my strong foundation in SQL, which I
-              regularly apply in backend development and data engineering. I&apos;m
-              excited to continue honing my database skills and leverage them in
-              new and challenging projects.
-            </p>
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Master in Data Structures & Algorithms and System Design</h3>
+              <p className="text-gray-600 mb-2">HeyCoach</p>
+              <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                Oct 2024 - Mar 2025 (Ongoing)
+              </span>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">AWS Certified Solutions Architect</h3>
+              <p className="text-gray-600 mb-2">Edureka</p>
+              <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
+                May 2024
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <footer className="text-center mt-12 mb-4 p-4 sm:p-6">
-        <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
-        <p>
-          You can reach out to me via phone at{" "}
-          <span className="text-red-600">+91 9304513277</span> or email at{" "}
-          <a
-            href="mailto:strr7452@gmail.com"
-            className="text-blue-500 hover:text-blue-700"
-          >
-            strr7452@gmail.com
-          </a>{" "}
-          or connect with me on{" "}
-          <a
-            href="https://www.linkedin.com/in/sudhirkumar-in"
-            className="text-blue-500 hover:text-blue-700"
-          >
-            LinkedIn
-          </a>
-          . I&apos;m always open to new opportunities and collaborations!
-        </p>
-        <p className="mt-4 text-gray-600">
-          🌟 Recently earned the SQL 50 badge on LeetCode, highlighting my
-          proficiency in database management and SQL queries.
-        </p>
-        <div className="mt-4">
-          <a
-            href="https://github.com/gitsudhir"
-            className="text-blue-500 hover:text-blue-700 mx-4"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://leetcode.com/u/sudhirkumar-in/"
-            className="text-blue-500 hover:text-blue-700 mx-4"
-          >
-            LeetCode
-          </a>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Let&#39;s Connect</h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            I&#39;m always open to new opportunities, collaborations, and interesting conversations about technology.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a 
+              href="mailto:strr7452@gmail.com" 
+              className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              Email Me
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/sudhirkumar-in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
+            >
+              LinkedIn
+            </a>
+            <a 
+              href="https://github.com/gitsudhir" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
+            >
+              GitHub
+            </a>
+            <a 
+              href="https://leetcode.com/u/sudhirkumar-in/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
+            >
+              LeetCode
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-gray-900 text-gray-400 text-center">
+        <div className="max-w-7xl mx-auto">
+          <p>© {new Date().getFullYear()} Sudhir Kumar. All rights reserved.</p>
+          <p className="mt-2 text-sm">Built with Next.js and deployed on Vercel</p>
         </div>
       </footer>
     </main>
