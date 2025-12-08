@@ -51,7 +51,7 @@ export default function Home() {
               Get In Touch
             </a>
             <a
-              href="/clipboard-rs_0.1.0_aarch64.dmg"
+              href="/clipboard-rs_0.1.0_aarch64_v2.dmg"
               download
               className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
             >
@@ -517,7 +517,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col items-center">
                   <a
-                    href="/clipboard-rs_0.1.0_aarch64.dmg"
+                    href="/clipboard-rs_0.1.0_aarch64_v2.dmg"
                     download
                     className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
