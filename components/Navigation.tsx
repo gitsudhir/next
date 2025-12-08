@@ -16,6 +16,7 @@ export default function Navigation() {
     { name: 'Gyroscope', href: '/gyroscope' },
     { name: 'Matrix Control', href: '/matrix' },
     { name: 'TOON vs JSON', href: '/toon-vs-json' },
+    { name: 'Clipboard App', href: '/#clipboard' },
   ];
 
   useEffect(() => {
