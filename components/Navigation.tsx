@@ -17,6 +17,7 @@ export default function Navigation() {
     { name: 'Matrix Control', href: '/matrix' },
     { name: 'TOON vs JSON', href: '/toon-vs-json' },
     { name: 'Clipboard App', href: '/#clipboard' },
+    { name: 'AIEdit (Linux)', href: '/#aiedit' },
   ];
 
   useEffect(() => {

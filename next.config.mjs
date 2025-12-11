@@ -14,6 +14,30 @@ const nextConfig = {
   
   // Configure output for standalone deployment if needed
   output: 'standalone',
+  
+  // Configure custom headers for proper MIME types
+  async headers() {
+    return [
+      {
+        source: '/linux/:path*.deb',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/vnd.debian.binary-package',
+          },
+        ],
+      },
+      {
+        source: '/linux/install.sh',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/x-shellscript',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

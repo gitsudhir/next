@@ -526,6 +526,82 @@ export default function Home() {
                   <p className="mt-4 text-sm text-gray-500">
                     Version 0.1.0 • Apple Silicon (M1/M2/M3)
                   </p>
+                  <div className="mt-6 w-full border-t border-gray-200 pt-6">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Linux Installation</h4>
+                    <div className="bg-gray-50 rounded-lg p-4 w-full">
+                      <p className="text-sm text-gray-700 mb-2">Install on Ubuntu/Debian:</p>
+                      <code className="bg-gray-800 text-green-400 text-xs p-2 rounded block overflow-x-auto">
+                        curl -fsSL https://sudhirkumar.in/linux/install.sh | bash
+                      </code>
+                      <p className="text-xs text-gray-500 mt-2">Or download the .deb file directly:</p>
+                      <a 
+                        href="/linux/aiedit_0.1.0_amd64.deb" 
+                        download
+                        className="text-xs text-blue-600 hover:text-blue-800 underline mt-1 inline-block"
+                      >
+                        aiedit_0.1.0_amd64.deb
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* AIEdit (Linux) Section */}
+      <section id="aiedit" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">AIEdit for Linux</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              A powerful Tauri-based application for Linux systems with advanced editing capabilities.
+            </p>
+          </div>
+          <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="p-8">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Install on Ubuntu/Debian</h3>
+                  <p className="text-gray-700 mb-4">
+                    Easily install AIEdit on your Linux system with our one-command installer. 
+                    Built with Rust for maximum performance and reliability.
+                  </p>
+                  <ul className="text-gray-700 space-y-2 mb-6">
+                    <li className="flex items-center">
+                      <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      One-command installation
+                    </li>
+                    <li className="flex items-center">
+                      <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      Lightweight and fast
+                    </li>
+                    <li className="flex items-center">
+                      <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      Built with Rust for security and performance
+                    </li>
+                  </ul>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-gray-800 text-green-400 text-sm p-4 rounded-lg font-mono mb-4">
+                    <div>curl -fsSL https://sudhirkumar.in/linux/install.sh | bash</div>
+                  </div>
+                  <a 
+                    href="/linux/aiedit_0.1.0_amd64.deb" 
+                    download
+                    className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  >
+                    Download .deb File
+                  </a>
+                  <p className="mt-4 text-sm text-gray-500">
+                    Version 0.1.0 • AMD64
+                  </p>
                 </div>
               </div>
             </div>
