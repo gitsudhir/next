@@ -5,14 +5,14 @@
 
 set -e
 
-echo "Installing aiedit..."
+echo "Installing aiedit v0.1.1..."
 
 # Download and install in one step
 TEMP_DEB="$(mktemp)"
 trap 'rm -f $TEMP_DEB' EXIT
 
 # Using your domain
-curl -fsSL https://sudhirkumar.in/linux/aiedit_0.1.0_amd64.deb -o "$TEMP_DEB"
+curl -fsSL https://sudhirkumar.in/linux/aiedit_0.1.1_amd64.deb -o "$TEMP_DEB"
 
 # Install dependencies
 apt-get update

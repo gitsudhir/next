@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CopyButton from "../components/CopyButton";
 
 export const metadata = {
   title: "Sudhir Kumar | Lead Rust Developer & Payment Systems Expert",
@@ -526,23 +527,6 @@ export default function Home() {
                   <p className="mt-4 text-sm text-gray-500">
                     Version 0.1.0 • Apple Silicon (M1/M2/M3)
                   </p>
-                  <div className="mt-6 w-full border-t border-gray-200 pt-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Linux Installation</h4>
-                    <div className="bg-gray-50 rounded-lg p-4 w-full">
-                      <p className="text-sm text-gray-700 mb-2">Install on Ubuntu/Debian:</p>
-                      <code className="bg-gray-800 text-green-400 text-xs p-2 rounded block overflow-x-auto">
-                        curl -fsSL https://sudhirkumar.in/linux/install.sh | bash
-                      </code>
-                      <p className="text-xs text-gray-500 mt-2">Or download the .deb file directly:</p>
-                      <a 
-                        href="/linux/aiedit_0.1.0_amd64.deb" 
-                        download
-                        className="text-xs text-blue-600 hover:text-blue-800 underline mt-1 inline-block"
-                      >
-                        aiedit_0.1.0_amd64.deb
-                      </a>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -589,18 +573,19 @@ export default function Home() {
                   </ul>
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className="bg-gray-800 text-green-400 text-sm p-4 rounded-lg font-mono mb-4">
-                    <div>curl -fsSL https://sudhirkumar.in/linux/install.sh | bash</div>
+                  <div className="bg-gray-800 text-green-400 text-sm p-4 rounded-lg font-mono mb-4 flex items-center justify-between w-full">
+                    <div>curl -fsSL https://sudhirkumar.in/linux/install.sh | sudo bash</div>
+                    <CopyButton text="curl -fsSL https://sudhirkumar.in/linux/install.sh | sudo bash" />
                   </div>
                   <a 
-                    href="/linux/aiedit_0.1.0_amd64.deb" 
+                    href="/linux/aiedit_0.1.1_amd64.deb" 
                     download
                     className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
                     Download .deb File
                   </a>
                   <p className="mt-4 text-sm text-gray-500">
-                    Version 0.1.0 • AMD64
+                    Version 0.1.1 • AMD64
                   </p>
                 </div>
               </div>
