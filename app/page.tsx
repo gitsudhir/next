@@ -52,6 +52,14 @@ export default function Home() {
               Get In Touch
             </a>
             <a
+              href="https://leetcode.com/u/sudhirkumar-in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-medium rounded-full hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              LeetCode
+            </a>
+            <a
               href="/clipboard-rs_0.1.0_aarch64_v2.dmg"
               download
               className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
