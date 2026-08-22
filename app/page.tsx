@@ -24,7 +24,7 @@ export default function Home() {
           <div className="mb-6 flex justify-center">
             <div className="relative">
               <Image
-                src="/profile-picture.png"
+                src="/profile-picture.jpeg"
                 alt="Sudhir Kumar"
                 width={200}
                 height={200}
