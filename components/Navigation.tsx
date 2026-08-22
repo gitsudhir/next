@@ -18,7 +18,6 @@ export default function Navigation() {
     { name: 'TOON vs JSON', href: '/toon-vs-json' },
     { name: 'Clipboard App', href: '/#clipboard' },
     { name: 'AIEdit (Linux)', href: '/#aiedit' },
-    { name: 'LeetCode', href: 'https://leetcode.com/problemset/' },
   ];
 
   useEffect(() => {

@@ -38,11 +38,11 @@ export default function Home() {
             Sudhir Kumar
           </h1>
           <h2 className="text-xl md:text-2xl text-gray-600 mb-6">
-            Lead Developer - Rust Backend Engineer
+            MERN Full-Stack Engineer 
           </h2>
           <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-8">
-            Backend-focused Senior Software Engineer specializing in high-performance payment systems using Rust.
-            Expertise in distributed systems, cloud architecture, and scalable backend solutions.
+            Full-Stack Developer with expertise in React, Node.js, and MongoDB.
+            Passionate about creating scalable and maintainable web applications.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
@@ -60,14 +60,7 @@ export default function Home() {
               LeetCode
             </a>
             <a
-              href="/clipboard-rs_0.1.0_aarch64_v2.dmg"
-              download
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
-            >
-              Download Clipboard App (Mac)
-            </a>
-            <a
-              href="https://www.linkedin.com/in/sudhirkumar-in"
+              href="https://www.linkedin.com/in/sudhirkumar-in/"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full border border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
@@ -75,7 +68,7 @@ export default function Home() {
               LinkedIn
             </a>
             <a
-              href="https://github.com/gitsudhir"
+              href="https://github.com/sudhirkumar-in"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full border border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
@@ -459,11 +452,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Certifications Section */}
+      {/* Courses Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Certifications</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Courses</h2>
             <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto"></div>
           </div>
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -625,7 +618,7 @@ export default function Home() {
               LinkedIn
             </a>
             <a
-              href="https://github.com/gitsudhir"
+              href="https://github.com/sudhirkumar-in"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-transparent text-white font-medium rounded-full border border-white hover:bg-white hover:text-gray-900 transition-all duration-300"
