@@ -46,7 +46,7 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:strr7452@gmail.com"
+              href="mailto:sudhirkumarlead@gmail.com"
               className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium rounded-full hover:from-red-600 hover:to-orange-600 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Get In Touch
@@ -604,7 +604,7 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:strr7452@gmail.com"
+              href="mailto:sudhirkumarlead@gmail.com"
               className="px-6 py-3 bg-white text-gray-900 font-medium rounded-full hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Email Me
