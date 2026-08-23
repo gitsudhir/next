@@ -464,7 +464,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900 mb-2">Master in Data Structures & Algorithms and System Design</h3>
               <p className="text-gray-600 mb-2">HeyCoach</p>
               <span className="inline-block px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full">
-                Oct 2024 - Mar 2025 (Ongoing)
+                Oct 2024 - Mar 2025
               </span>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
